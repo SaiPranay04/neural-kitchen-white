@@ -58,11 +58,16 @@ export default function AdminDashboard() {
             <Home size={15} /> Back to Home
           </button>
           <div style={{ display: "flex", gap: 10, padding: "8px 10px", alignItems: "center", marginTop: 4 }}>
-            <div style={{ width: 30, height: 30, borderRadius: 8, background: C.orange, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "white" }}>SM</div>
+            <div style={{ width: 30, height: 30, borderRadius: 8, background: C.orange, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "white" }}>SP</div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "white" }}>Sai M.</div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Owner · Vezora</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "white" }}>Sai Pranay</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Owner</div>
             </div>
+          </div>
+          
+          <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8 }}>POWERED BY</div>
+            <img src="/vezora-bg.png" alt="Vezora Digital" style={{ height: 120, objectFit: "contain", opacity: 0.9 }} />
           </div>
         </div>
       </div>

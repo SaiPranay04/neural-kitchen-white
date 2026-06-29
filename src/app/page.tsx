@@ -195,6 +195,18 @@ export default function LandingPage() {
         <button onClick={() => onNavigate("admin")} style={{ padding: "16px 40px", borderRadius: 12, border: "none", background: C.orange, color: "white", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: `0 4px 24px ${C.orange}50` }}>
           Start Free Trial — No Card Required
         </button>
+
+        {/* VEZORA DIGITAL SIGNATURE */}
+        <div style={{ marginTop: 80, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1200, margin: "80px auto 0" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <img src="/image.png" alt="Logo" style={{ width: 24, height: 24, borderRadius: 6, objectFit: "cover", opacity: 0.8 }} />
+            <span style={{ fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.9)" }}>Neural Kitchen</span>
+          </div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: 8 }}>
+            © {new Date().getFullYear()} Neural Kitchen. Designed & Engineered by 
+            <img src="/vezora-bg.png" alt="Vezora Digital" style={{ height: 80, objectFit: "contain" }} />
+          </div>
+        </div>
       </div>
     </div>
   );
