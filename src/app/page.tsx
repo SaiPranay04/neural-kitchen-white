@@ -19,9 +19,7 @@ export default function LandingPage() {
       {/* NAV */}
       <nav style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(250,250,248,0.9)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.slate200}`, padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Flame size={18} color="white" />
-          </div>
+          <img src="/image.png" alt="Neural Kitchen Logo" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
           <span style={{ fontWeight: 800, fontSize: 17, color: C.navy, letterSpacing: "-0.02em" }}>Neural Kitchen</span>
         </div>
         <div style={{ display: "flex", gap: 8 }}>

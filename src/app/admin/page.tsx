@@ -30,9 +30,7 @@ export default function AdminDashboard() {
       <div style={{ width: 240, background: C.navy, display: "flex", flexDirection: "column", flexShrink: 0 }}>
         <div style={{ padding: "20px 20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: C.orange, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Flame size={18} color="white" />
-            </div>
+            <img src="/image.png" alt="Neural Kitchen Logo" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
             <div>
               <div style={{ fontWeight: 700, fontSize: 14, color: "white" }}>Neural Kitchen</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>Admin Console</div>
