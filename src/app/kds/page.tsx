@@ -78,16 +78,20 @@ export default function KDSPage() {
     <div style={{ background: C.slate50, minHeight: "100vh", fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* KDS HEADER */}
       <div style={{ background: "white", borderBottom: `1px solid ${C.slate200}`, padding: "0 24px" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div className="flex flex-col md:flex-row md:items-center justify-between py-3 md:py-0 md:h-16 gap-3 max-w-[1400px] mx-auto">
+          <div className="flex items-center gap-3 md:gap-4">
             <button onClick={() => router.push("/")} style={{ padding: "6px 12px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", fontSize: 13, color: C.slate600 }}>← Back</button>
-            <div style={{ fontWeight: 700, fontSize: 20, color: C.navy }}>Kitchen Display System</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 8, background: C.emeraldLight }}>
+            <div className="font-bold text-[16px] md:text-[20px]" style={{ color: C.navy }}>Kitchen Display System</div>
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg" style={{ background: C.emeraldLight }}>
               <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald }} />
               <span style={{ fontSize: 12, fontWeight: 600, color: C.emerald }}>Live</span>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          <div className="flex gap-4 items-center justify-between md:justify-end w-full md:w-auto">
+            <div className="sm:hidden flex items-center gap-1.5 px-3 py-1 rounded-lg" style={{ background: C.emeraldLight }}>
+              <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald }} />
+              <span style={{ fontSize: 12, fontWeight: 600, color: C.emerald }}>Live</span>
+            </div>
             <div style={{ textAlign: "right" }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: C.navy }}>
                 {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -100,15 +104,15 @@ export default function KDSPage() {
 
       {/* AI INSIGHT BANNER */}
       <div style={{ maxWidth: 1400, margin: "20px auto 0", padding: "0 24px" }}>
-        <motion.div animate={{ x: [0, 0] }} style={{ background: `linear-gradient(135deg, #FFF7ED, #FFFBEB)`, borderRadius: 12, padding: "12px 20px", border: `1px solid ${C.amber}40`, display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, background: `${C.amber}20`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <motion.div animate={{ x: [0, 0] }} className="flex flex-col md:flex-row items-start md:items-center gap-3 p-3 md:p-4 rounded-xl" style={{ background: `linear-gradient(135deg, #FFF7ED, #FFFBEB)`, border: `1px solid ${C.amber}40` }}>
+          <div className="flex-shrink-0" style={{ width: 32, height: 32, borderRadius: 8, background: `${C.amber}20`, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Brain size={16} color={C.amber} />
           </div>
           <div>
             <span style={{ fontWeight: 700, fontSize: 13, color: C.amber }}>AI FORECAST · </span>
             <span style={{ fontSize: 13, color: C.slate700 }}>Burger station may be overloaded in ~10 minutes based on incoming bookings. Consider pre-prepping 6 additional patties. Table 14 party of 8 arrives at 8:30PM.</span>
           </div>
-          <div style={{ marginLeft: "auto", display: "flex", gap: 12 }}>
+          <div className="mt-2 md:mt-0 w-full md:w-auto md:ml-auto flex justify-between md:justify-end gap-6 flex-shrink-0">
             {[{ label: "Avg Time", val: "11m" }, { label: "Active Orders", val: "8" }, { label: "Queue Depth", val: "3" }].map(({ label, val }) => (
               <div key={label} style={{ textAlign: "center" }}>
                 <div style={{ fontWeight: 800, fontSize: 18, color: C.navy }}>{val}</div>
@@ -120,9 +124,9 @@ export default function KDSPage() {
       </div>
 
       {/* KDS KANBAN */}
-      <div style={{ maxWidth: 1400, margin: "20px auto", padding: "0 24px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+      <div className="px-4 md:px-6 max-w-[1400px] mx-auto my-5 flex md:grid md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory pb-4">
         {columns.map(col => (
-          <div key={col.key}>
+          <div key={col.key} className="min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-start">
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, padding: "0 4px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px", borderRadius: 8, background: col.bg, color: col.color }}>
                 {col.icon}

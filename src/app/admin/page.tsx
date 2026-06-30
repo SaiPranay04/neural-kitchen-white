@@ -25,35 +25,36 @@ export default function AdminDashboard() {
   const dashOffset = circumference - (healthScore / 100) * circumference;
 
   return (
-    <div style={{ display: "flex", height: "100vh", background: C.slate50, fontFamily: "'Inter', system-ui, sans-serif", overflow: "hidden" }}>
+    <div className="flex flex-col md:flex-row h-screen overflow-hidden" style={{ background: C.slate50, fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* SIDEBAR */}
-      <div style={{ width: 240, background: C.navy, display: "flex", flexDirection: "column", flexShrink: 0 }}>
-        <div style={{ padding: "20px 20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <img src="/image.png" alt="Neural Kitchen Logo" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 14, color: "white" }}>Neural Kitchen</div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>Admin Console</div>
+      <div className="w-full md:w-[240px] flex-shrink-0 flex flex-row md:flex-col overflow-x-auto no-scrollbar shadow-md md:shadow-none z-30" style={{ background: C.navy }}>
+        <div className="p-3 md:p-5 md:border-b border-white/10 flex flex-row md:flex-col items-center md:items-start flex-shrink-0">
+          <div className="flex items-center gap-3 md:mb-4">
+            <img src="/image.png" alt="Neural Kitchen Logo" className="w-8 h-8 md:w-9 md:h-9 rounded-lg object-cover" />
+            <div className="hidden md:block">
+              <div className="font-bold text-sm text-white">Neural Kitchen</div>
+              <div className="text-[11px] text-white/50">Admin Console</div>
             </div>
           </div>
-          <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 8, padding: "6px 10px", display: "flex", alignItems: "center", gap: 6 }}>
+          <div className="hidden md:flex bg-white/10 rounded-lg p-[6px_10px] items-center gap-2 mt-2">
             <Search size={13} color="rgba(255,255,255,0.4)" />
-            <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>Search...</span>
+            <span className="text-white/40 text-[13px]">Search...</span>
           </div>
         </div>
 
-        <nav style={{ flex: 1, padding: "16px 12px", display: "flex", flexDirection: "column", gap: 2 }}>
-          <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.35)", letterSpacing: "0.08em", padding: "4px 8px", marginBottom: 4 }}>MODULES</div>
+        <nav className="flex-1 p-2 md:p-4 flex flex-row md:flex-col gap-2 items-center md:items-stretch overflow-x-auto no-scrollbar">
+          <div className="hidden md:block text-[10px] font-semibold text-white/40 tracking-wider px-2 mb-1">MODULES</div>
           {navItems.map(item => (
             <button key={item.id} onClick={() => setActivePage(item.id)}
-              style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 8, border: "none", background: activePage === item.id ? "rgba(255,255,255,0.12)" : "transparent", color: activePage === item.id ? "white" : "rgba(255,255,255,0.55)", fontWeight: activePage === item.id ? 600 : 400, fontSize: 14, cursor: "pointer", transition: "all 0.15s", textAlign: "left", width: "100%" }}>
-              {item.icon} {item.label}
-              {activePage === item.id && <ChevronRight size={13} style={{ marginLeft: "auto" }} />}
+              className={`flex items-center gap-2 md:gap-3 px-3 py-2 md:px-3 md:py-[9px] rounded-lg border-none text-[13px] md:text-[14px] cursor-pointer transition-all whitespace-nowrap ${activePage === item.id ? "bg-white/10 text-white font-semibold" : "bg-transparent text-white/55 font-normal hover:bg-white/5"}`}
+              style={{ width: "100%" }}>
+              {item.icon} <span className="inline">{item.label}</span>
+              {activePage === item.id && <ChevronRight size={13} className="hidden md:block ml-auto" />}
             </button>
           ))}
         </nav>
 
-        <div style={{ padding: "12px 16px", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+        <div className="hidden md:block p-3 md:p-4 border-t border-white/10">
           <button onClick={() => router.push("/")} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", width: "100%", borderRadius: 8, border: "none", background: "transparent", color: "rgba(255,255,255,0.5)", fontSize: 13, cursor: "pointer" }}>
             <Home size={15} /> Back to Home
           </button>
@@ -73,9 +74,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div style={{ flex: 1, overflowY: "auto" }}>
+      <div className="flex-1 overflow-y-auto">
         {/* TOP BAR */}
-        <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(248,250,252,0.9)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.slate200}`, padding: "0 28px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
+        <div className="sticky top-0 z-20 px-4 md:px-7 h-[60px] flex items-center justify-between border-b" style={{ background: "rgba(248,250,252,0.9)", backdropFilter: "blur(12px)", borderColor: C.slate200 }}>
           <div>
             <div style={{ fontWeight: 700, fontSize: 17, color: C.navy }}>
               {navItems.find(n => n.id === activePage)?.label || "Overview"}
@@ -84,22 +85,22 @@ export default function AdminDashboard() {
               {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
             </div>
           </div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <div style={{ padding: "6px 14px", borderRadius: 8, background: C.emeraldLight, color: C.emerald, fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-              <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald }} />
+          <div className="flex gap-2 md:gap-3 items-center">
+            <div className="hidden md:flex px-3 py-[6px] rounded-lg text-[13px] font-semibold items-center gap-2" style={{ background: C.emeraldLight, color: C.emerald }}>
+              <div className="w-[7px] h-[7px] rounded-full" style={{ background: C.emerald }} />
               All Systems Operational
             </div>
-            <button style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+            <button className="w-8 h-8 md:w-9 md:h-9 rounded-lg border bg-white flex items-center justify-center relative cursor-pointer" style={{ borderColor: C.slate200 }}>
               <Bell size={16} color={C.slate600} />
-              <div style={{ position: "absolute", top: 6, right: 6, width: 8, height: 8, borderRadius: "50%", background: C.orange, border: "2px solid white" }} />
+              <div className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full border-2 border-white" style={{ background: C.orange }} />
             </button>
-            <button onClick={() => router.push("/kds")} style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: C.navy, color: "white", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+            <button onClick={() => router.push("/kds")} className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg border-none text-white font-semibold text-[12px] md:text-[13px] cursor-pointer whitespace-nowrap" style={{ background: C.navy }}>
               Open KDS
             </button>
           </div>
         </div>
 
-        <div style={{ padding: "24px 28px" }}>
+        <div className="p-4 md:p-7">
           {activePage === "overview" && (
             <OverviewContent healthScore={healthScore} circumference={circumference} dashOffset={dashOffset} router={router} />
           )}
@@ -132,7 +133,7 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
       </motion.div>
 
       {/* KPI ROW */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16, marginBottom: 24 }}>
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 mb-6">
         {[
           { label: "Today's Revenue", val: "$8,412", change: "+18.2%", up: true, color: C.navy, icon: <DollarSign size={17} /> },
           { label: "Total Orders", val: "147", change: "+23", up: true, color: C.orange, icon: <ShoppingBag size={17} /> },
@@ -141,7 +142,7 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
           { label: "Profit Margin", val: "34.8%", change: "+2.1%", up: true, color: C.cyan, icon: <Target size={17} /> },
         ].map(({ label, val, change, up, color, icon }, i) => (
           <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
-            style={{ background: "white", borderRadius: 16, padding: "18px 20px", border: `1px solid ${C.slate200}`, boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
+            className="bg-white rounded-[16px] p-4 md:p-5 border shadow-sm" style={{ borderColor: C.slate200 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
               <div style={{ fontSize: 12, color: C.slate400, fontWeight: 500 }}>{label}</div>
               <div style={{ width: 32, height: 32, borderRadius: 8, background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center", color }}>{icon}</div>
@@ -157,10 +158,10 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
       </div>
 
       {/* CHARTS ROW */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20, marginBottom: 24 }}>
+      <div className="flex flex-col lg:grid lg:grid-cols-[1fr_320px] gap-4 md:gap-5 mb-6">
         {/* AREA CHART */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-          style={{ background: "white", borderRadius: 20, padding: "24px", border: `1px solid ${C.slate200}` }}>
+          className="bg-white rounded-[20px] p-5 md:p-6 border overflow-hidden" style={{ borderColor: C.slate200 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
             <div>
               <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4 }}>Revenue Trend</div>
@@ -196,7 +197,7 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
 
         {/* HEALTH SCORE */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
-          style={{ background: "white", borderRadius: 20, padding: "24px", border: `1px solid ${C.slate200}`, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          className="bg-white rounded-[20px] p-5 md:p-6 border flex flex-col items-center" style={{ borderColor: C.slate200 }}>
           <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4, alignSelf: "flex-start" }}>Restaurant Health</div>
           <div style={{ fontSize: 13, color: C.slate400, marginBottom: 20, alignSelf: "flex-start" }}>AI-generated composite score</div>
 
@@ -244,10 +245,10 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
       </div>
 
       {/* BOTTOM ROW */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
         {/* CATEGORY CHART */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-          style={{ background: "white", borderRadius: 20, padding: "24px", border: `1px solid ${C.slate200}` }}>
+          className="bg-white rounded-[20px] p-5 md:p-6 border" style={{ borderColor: C.slate200 }}>
           <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4 }}>Sales by Category</div>
           <div style={{ fontSize: 13, color: C.slate400, marginBottom: 16 }}>Revenue contribution this month</div>
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
@@ -274,7 +275,7 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
 
         {/* LIVE ACTIVITY */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
-          style={{ background: "white", borderRadius: 20, padding: "24px", border: `1px solid ${C.slate200}` }}>
+          className="bg-white rounded-[20px] p-5 md:p-6 border" style={{ borderColor: C.slate200 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
               <div style={{ fontWeight: 700, fontSize: 16, color: C.navy }}>Live Activity</div>
@@ -325,8 +326,8 @@ function AnalyticsContent() {
         <div style={{ fontWeight: 700, fontSize: 20, color: C.navy, marginBottom: 4 }}>Analytics Suite</div>
         <div style={{ fontSize: 14, color: C.slate400 }}>Deep-dive into your restaurant's performance data</div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-        <div style={{ background: "white", borderRadius: 20, padding: "24px", border: `1px solid ${C.slate200}` }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
+        <div className="bg-white rounded-[20px] p-5 md:p-6 border" style={{ borderColor: C.slate200 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: C.navy, marginBottom: 16 }}>Monthly Orders</div>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={REVENUE_DATA}>
@@ -338,7 +339,7 @@ function AnalyticsContent() {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div style={{ background: "white", borderRadius: 20, padding: "24px", border: `1px solid ${C.slate200}` }}>
+        <div className="bg-white rounded-[20px] p-5 md:p-6 border" style={{ borderColor: C.slate200 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: C.navy, marginBottom: 16 }}>Revenue vs Profit</div>
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart data={REVENUE_DATA}>

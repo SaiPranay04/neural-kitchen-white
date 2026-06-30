@@ -105,7 +105,7 @@ export default function MenuPage() {
       {/* MENU HEADER */}
       <div style={{ background: "white", borderBottom: `1px solid ${C.slate200}`, position: "sticky", top: 0, zIndex: 40 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "16px 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <button onClick={() => router.push("/")} style={{ padding: "6px 12px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: C.slate600 }}>
                 ← Back
@@ -117,13 +117,13 @@ export default function MenuPage() {
                 </div>
               </div>
             </div>
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <div style={{ position: "relative" }}>
+            <div className="flex gap-2 items-center justify-between w-full md:w-auto">
+              <div style={{ position: "relative", flex: 1 }}>
                 <Search size={15} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: C.slate400 }} />
                 <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                  placeholder="Search menu..." style={{ paddingLeft: 32, paddingRight: 12, paddingTop: 8, paddingBottom: 8, borderRadius: 10, border: `1px solid ${C.slate200}`, fontSize: 14, width: 200, outline: "none", color: C.slate800 }} />
+                  placeholder="Search menu..." className="w-full md:w-[200px]" style={{ paddingLeft: 32, paddingRight: 12, paddingTop: 8, paddingBottom: 8, borderRadius: 10, border: `1px solid ${C.slate200}`, fontSize: 14, outline: "none", color: C.slate800 }} />
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "6px 12px", borderRadius: 8, background: C.emeraldLight, color: C.emerald }}>
+              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg whitespace-nowrap" style={{ background: C.emeraldLight, color: C.emerald }}>
                 <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald }} />
                 <span style={{ fontSize: 12, fontWeight: 600 }}>Kitchen Open</span>
               </div>
@@ -146,7 +146,8 @@ export default function MenuPage() {
       {/* AI BANNER */}
       <div style={{ maxWidth: 1100, margin: "20px auto 0", padding: "0 24px" }}>
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-          style={{ background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`, borderRadius: 14, padding: "14px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+          className="flex flex-col md:flex-row items-start md:items-center gap-3 p-4 rounded-[14px]"
+          style={{ background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})` }}>
           <div style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Brain size={16} color="white" />
           </div>
@@ -162,7 +163,7 @@ export default function MenuPage() {
 
       {/* MENU GRID */}
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px" }}>
-        <motion.div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
           <AnimatePresence mode="popLayout">
             {filtered.map((item, i) => (
               <MenuCard key={item.id} item={item} index={i}
@@ -187,6 +188,7 @@ export default function MenuPage() {
       {cartCount > 0 && (
         <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           onClick={() => setShowCart(true)}
+          className="w-[90%] md:w-auto justify-center md:justify-start"
           style={{ position: "fixed", bottom: 90, left: "50%", transform: "translateX(-50%)", background: C.navy, color: "white", border: "none", borderRadius: 99, padding: "14px 28px", display: "flex", alignItems: "center", gap: 10, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: `0 8px 32px ${C.navy}60`, zIndex: 30 }}>
           <ShoppingCart size={18} />
           View Cart · {cartCount} items · ${cartTotal.toFixed(2)}

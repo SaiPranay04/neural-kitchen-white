@@ -17,7 +17,7 @@ export default function LandingPage() {
   return (
     <div style={{ background: C.cream, minHeight: "100vh", fontFamily: "'Inter', 'Plus Jakarta Sans', system-ui, sans-serif" }}>
       {/* NAV */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(250,250,248,0.9)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.slate200}`, padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+      <nav className="px-4 md:px-8 flex items-center justify-between" style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(250,250,248,0.9)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.slate200}`, height: 64 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <img src="/image.png" alt="Neural Kitchen Logo" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
           <span style={{ fontWeight: 800, fontSize: 17, color: C.navy, letterSpacing: "-0.02em" }}>Neural Kitchen</span>
@@ -37,7 +37,7 @@ export default function LandingPage() {
       </nav>
 
       {/* HERO */}
-      <div style={{ padding: "80px 32px 60px", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
+      <div className="px-4 md:px-8 py-12 md:pt-20 md:pb-16 max-w-[1200px] mx-auto text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "white", border: `1px solid ${C.orange}30`, borderRadius: 99, padding: "6px 16px", marginBottom: 28, boxShadow: `0 2px 12px ${C.orange}15` }}>
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald, display: "inline-block" }} />
@@ -57,7 +57,7 @@ export default function LandingPage() {
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-          style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          className="flex flex-col sm:flex-row gap-3 justify-center">
           <button onClick={() => onNavigate("menu")} style={{ padding: "14px 32px", borderRadius: 12, border: "none", background: C.orange, color: "white", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: `0 4px 20px ${C.orange}40` }}>
             Explore the Menu Experience
           </button>
@@ -68,7 +68,7 @@ export default function LandingPage() {
 
         {/* STATS STRIP */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-          style={{ display: "flex", justifyContent: "center", gap: 48, marginTop: 56, flexWrap: "wrap" }}>
+          className="grid grid-cols-2 md:flex justify-center gap-8 md:gap-12 mt-10 md:mt-14">
           {[["31%", "Revenue Uplift"], ["2.4×", "Table Turnover"], ["18 min", "Avg Order Time"], ["4.9★", "Guest Satisfaction"]].map(([val, label]) => (
             <div key={label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: 28, fontWeight: 800, color: C.navy }}>{val}</div>
@@ -79,10 +79,10 @@ export default function LandingPage() {
       </div>
 
       {/* HERO IMAGE STRIP */}
-      <div style={{ padding: "0 32px", maxWidth: 1200, margin: "0 auto 80px" }}>
+      <div className="px-4 md:px-8 max-w-[1200px] mx-auto mb-12 md:mb-20">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }}
           style={{ borderRadius: 24, overflow: "hidden", boxShadow: "0 32px 64px rgba(27,43,94,0.18)", border: `1px solid ${C.slate200}`, background: "white", position: "relative" }}>
-          <div style={{ background: `linear-gradient(135deg, ${C.navy} 0%, ${C.navyLight} 100%)`, padding: "24px 32px", display: "flex", alignItems: "center", gap: 16 }}>
+          <div className="p-4 md:px-8 md:py-6 flex flex-col md:flex-row items-center gap-4" style={{ background: `linear-gradient(135deg, ${C.navy} 0%, ${C.navyLight} 100%)` }}>
             <div style={{ display: "flex", gap: 6 }}>
               {["#FF5F57", "#FFBD2E", "#28CA41"].map(c => <div key={c} style={{ width: 12, height: 12, borderRadius: "50%", background: c }} />)}
             </div>
@@ -96,8 +96,8 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-          <div style={{ padding: "32px", background: C.slate50 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 20 }}>
+          <div className="p-4 md:p-8" style={{ background: C.slate50 }}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
               {[{ label: "Today's Revenue", val: "$8,412", up: true, change: "+18.2%" },
                 { label: "Active Orders", val: "23", up: true, change: "+4" },
                 { label: "Avg Table Time", val: "38 min", up: false, change: "-6 min" },
@@ -124,7 +124,7 @@ export default function LandingPage() {
       </div>
 
       {/* BENTO GRID */}
-      <div style={{ padding: "0 32px 80px", maxWidth: 1200, margin: "0 auto" }}>
+      <div className="px-4 md:px-8 pb-12 md:pb-20 max-w-[1200px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           style={{ textAlign: "center", marginBottom: 48 }}>
           <h2 style={{ fontSize: 40, fontWeight: 800, color: C.navy, letterSpacing: "-0.025em", marginBottom: 12 }}>
@@ -133,7 +133,7 @@ export default function LandingPage() {
           <p style={{ fontSize: 17, color: C.slate600 }}>Eleven integrated modules. One intelligent platform.</p>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridTemplateRows: "auto", gap: 16 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {BENTO_MODULES.map((mod, i) => {
             const isLarge = mod.size === "large";
             const isHovered = hoveredModule === i;
@@ -144,8 +144,8 @@ export default function LandingPage() {
                 onHoverStart={() => setHoveredModule(i)}
                 onHoverEnd={() => setHoveredModule(null)}
                 onClick={() => mod.page && onNavigate(mod.page)}
+                className={isLarge ? "col-span-1 md:col-span-2" : "col-span-1"}
                 style={{
-                  gridColumn: isLarge ? "span 2" : "span 1",
                   background: isHovered ? `linear-gradient(135deg, ${mod.color}08, ${mod.color}15)` : "white",
                   borderRadius: 20, border: isHovered ? `1.5px solid ${mod.color}40` : `1px solid ${C.slate200}`,
                   padding: isLarge ? "32px" : "24px",
@@ -185,7 +185,7 @@ export default function LandingPage() {
       </div>
 
       {/* FOOTER CTA */}
-      <div style={{ background: C.navy, padding: "80px 32px", textAlign: "center" }}>
+      <div className="py-16 md:py-20 px-4 md:px-8 text-center" style={{ background: C.navy }}>
         <h2 style={{ fontSize: 40, fontWeight: 800, color: "white", marginBottom: 16, letterSpacing: "-0.025em" }}>
           Ready to run the neural kitchen?
         </h2>
@@ -197,7 +197,7 @@ export default function LandingPage() {
         </button>
 
         {/* VEZORA DIGITAL SIGNATURE */}
-        <div style={{ marginTop: 80, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1200, margin: "80px auto 0" }}>
+        <div className="mt-12 md:mt-20 pt-8 flex flex-col md:flex-row justify-between items-center max-w-[1200px] mx-auto gap-6" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <img src="/image.png" alt="Logo" style={{ width: 24, height: 24, borderRadius: 6, objectFit: "cover", opacity: 0.8 }} />
             <span style={{ fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.9)" }}>Neural Kitchen</span>
