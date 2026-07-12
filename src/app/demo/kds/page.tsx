@@ -80,7 +80,7 @@ export default function KDSPage() {
       <div style={{ background: "white", borderBottom: `1px solid ${C.slate200}`, padding: "0 24px" }}>
         <div className="flex flex-col md:flex-row md:items-center justify-between py-3 md:py-0 md:h-16 gap-3 max-w-[1400px] mx-auto">
           <div className="flex items-center gap-3 md:gap-4">
-            <button onClick={() => router.push("/")} style={{ padding: "6px 12px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", fontSize: 13, color: C.slate600 }}>← Back</button>
+            <button onClick={() => router.push("/demo")} style={{ padding: "6px 12px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", fontSize: 13, color: C.slate600 }}>← Back</button>
             <div className="font-bold text-[16px] md:text-[20px]" style={{ color: C.navy }}>Kitchen Display System</div>
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg" style={{ background: C.emeraldLight }}>
               <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald }} />

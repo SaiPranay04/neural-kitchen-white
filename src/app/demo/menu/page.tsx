@@ -107,7 +107,7 @@ export default function MenuPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "16px 24px" }}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <button onClick={() => router.push("/")} style={{ padding: "6px 12px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: C.slate600 }}>
+              <button onClick={() => router.push("/demo")} style={{ padding: "6px 12px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: C.slate600 }}>
                 ← Back
               </button>
               <div>

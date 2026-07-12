@@ -55,7 +55,7 @@ export default function AdminDashboard() {
         </nav>
 
         <div className="hidden md:block p-3 md:p-4 border-t border-white/10">
-          <button onClick={() => router.push("/")} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", width: "100%", borderRadius: 8, border: "none", background: "transparent", color: "rgba(255,255,255,0.5)", fontSize: 13, cursor: "pointer" }}>
+          <button onClick={() => router.push("/demo")} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", width: "100%", borderRadius: 8, border: "none", background: "transparent", color: "rgba(255,255,255,0.5)", fontSize: 13, cursor: "pointer" }}>
             <Home size={15} /> Back to Home
           </button>
           <div style={{ display: "flex", gap: 10, padding: "8px 10px", alignItems: "center", marginTop: 4 }}>
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
               <Bell size={16} color={C.slate600} />
               <div className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full border-2 border-white" style={{ background: C.orange }} />
             </button>
-            <button onClick={() => router.push("/kds")} className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg border-none text-white font-semibold text-[12px] md:text-[13px] cursor-pointer whitespace-nowrap" style={{ background: C.navy }}>
+            <button onClick={() => router.push("/demo/kds")} className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg border-none text-white font-semibold text-[12px] md:text-[13px] cursor-pointer whitespace-nowrap" style={{ background: C.navy }}>
               Open KDS
             </button>
           </div>
@@ -309,7 +309,7 @@ function OverviewContent({ healthScore, circumference, dashOffset, router }: any
       {/* QUICK LINKS */}
       <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
         {[{ label: "Open Menu Board", page: "menu", color: C.orange }, { label: "Kitchen Display", page: "kds", color: C.emerald }].map(({ label, page, color }) => (
-          <button key={page} onClick={() => router.push(`/${page}`)}
+          <button key={page} onClick={() => router.push(`/demo/${page}`)}
             style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 20px", borderRadius: 12, border: `1px solid ${color}30`, background: `${color}08`, color, fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
             {label} <ArrowUpRight size={15} />
           </button>
