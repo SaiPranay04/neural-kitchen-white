@@ -20,11 +20,15 @@ export default function PortfolioPage() {
       {/* ── NAVBAR ── */}
       <nav style={{ position: "fixed", top: 0, width: "100%", background: "rgba(250,250,248,0.85)", backdropFilter: "blur(20px)", zIndex: 50, borderBottom: `1px solid ${C.slate200}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 36, height: 36, background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <UtensilsCrossed color="white" size={18} />
-            </div>
-            <span style={{ fontWeight: 800, fontSize: 18, color: C.navy, letterSpacing: "-0.02em" }}>Neural Kitchen</span>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
+            onClick={() => router.push("/")}
+          >
+            <img
+              src="/image.png"
+              alt="The Neural Kitchen"
+              style={{ height: 52, width: "auto", objectFit: "contain", display: "block" }}
+            />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
             <span onClick={() => router.push("/features/platform")} style={{ color: C.slate600, fontWeight: 500, fontSize: 14, cursor: "pointer" }}>Features</span>
@@ -228,10 +232,11 @@ export default function PortfolioPage() {
       <footer style={{ padding: "48px 24px", borderTop: `1px solid ${C.slate200}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 28, height: 28, background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <UtensilsCrossed color="white" size={14} />
-            </div>
-            <span style={{ fontWeight: 800, color: C.navy, fontSize: 15 }}>Neural Kitchen</span>
+            <img
+              src="/image.png"
+              alt="The Neural Kitchen"
+              style={{ height: 44, width: "auto", objectFit: "contain", display: "block" }}
+            />
           </div>
           <div style={{ color: C.slate400, fontSize: 13 }}>© {new Date().getFullYear()} Vezora Digital. All rights reserved.</div>
         </div>

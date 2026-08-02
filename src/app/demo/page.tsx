@@ -19,8 +19,11 @@ export default function LandingPage() {
       {/* NAV */}
       <nav className="px-4 md:px-8 flex items-center justify-between" style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(250,250,248,0.9)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.slate200}`, height: 64 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img src="/image.png" alt="Neural Kitchen Logo" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
-          <span style={{ fontWeight: 800, fontSize: 17, color: C.navy, letterSpacing: "-0.02em" }}>Neural Kitchen</span>
+          <img
+            src="/image.png"
+            alt="The Neural Kitchen"
+            style={{ height: 52, width: "auto", objectFit: "contain", display: "block" }}
+          />
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           {[{ label: "Menu", page: "menu" }, { label: "Kitchen", page: "kds" }, { label: "Dashboard", page: "admin" }].map(({ label, page }) => (
@@ -205,8 +208,11 @@ export default function LandingPage() {
         {/* VEZORA DIGITAL SIGNATURE */}
         <div className="mt-12 md:mt-20 pt-8 flex flex-col md:flex-row justify-between items-center max-w-[1200px] mx-auto gap-6" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <img src="/image.png" alt="Logo" style={{ width: 24, height: 24, borderRadius: 6, objectFit: "cover", opacity: 0.8 }} />
-            <span style={{ fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.9)" }}>Neural Kitchen</span>
+            <img
+              src="/image.png"
+              alt="The Neural Kitchen"
+              style={{ height: 40, width: "auto", objectFit: "contain", display: "block", background: "white", borderRadius: 8, padding: 4 }}
+            />
           </div>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: 8 }}>
             © {new Date().getFullYear()} Neural Kitchen. Designed & Engineered by 

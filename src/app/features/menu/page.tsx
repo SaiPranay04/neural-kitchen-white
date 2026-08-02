@@ -17,9 +17,17 @@ export default function MenuFeaturePage() {
       {/* Nav */}
       <nav style={{ position: "fixed", top: 0, width: "100%", background: "rgba(250,250,248,0.85)", backdropFilter: "blur(20px)", zIndex: 50, borderBottom: `1px solid ${C.slate200}`, padding: "14px 24px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => router.push("/")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", border: "none", color: C.slate600, fontWeight: 600, cursor: "pointer", fontSize: 14 }}>
-            <ArrowLeft size={18} /> Back to Home
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <img
+              src="/image.png"
+              alt="The Neural Kitchen"
+              onClick={() => router.push("/")}
+              style={{ height: 48, width: "auto", objectFit: "contain", display: "block", cursor: "pointer" }}
+            />
+            <button onClick={() => router.push("/")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", border: "none", color: C.slate600, fontWeight: 600, cursor: "pointer", fontSize: 14 }}>
+              <ArrowLeft size={18} /> Back to Home
+            </button>
+          </div>
           <button onClick={openMail} style={{ padding: "10px 24px", borderRadius: 12, border: "none", background: C.orange, color: "white", fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
             Request Demo
           </button>
