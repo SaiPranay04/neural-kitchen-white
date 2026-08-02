@@ -19,10 +19,10 @@ export default function AdminFeaturePage() {
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <img
-              src="/image.png"
+              src="/logo.png"
               alt="The Neural Kitchen"
               onClick={() => router.push("/")}
-              style={{ height: 48, width: "auto", objectFit: "contain", display: "block", cursor: "pointer" }}
+              style={{ height: 88, width: "auto", objectFit: "contain", display: "block", cursor: "pointer" }}
             />
             <button onClick={() => router.push("/")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", border: "none", color: C.slate600, fontWeight: 600, cursor: "pointer", fontSize: 14 }}>
               <ArrowLeft size={18} /> Back to Home

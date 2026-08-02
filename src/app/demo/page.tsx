@@ -17,12 +17,12 @@ export default function LandingPage() {
   return (
     <div style={{ background: C.cream, minHeight: "100vh", fontFamily: "'Inter', 'Plus Jakarta Sans', system-ui, sans-serif" }}>
       {/* NAV */}
-      <nav className="px-4 md:px-8 flex items-center justify-between" style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(250,250,248,0.9)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.slate200}`, height: 64 }}>
+      <nav className="px-4 md:px-8 flex items-center justify-between" style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(250,250,248,0.9)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.slate200}`, minHeight: 96, paddingTop: 8, paddingBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <img
-            src="/image.png"
+            src="/logo.png"
             alt="The Neural Kitchen"
-            style={{ height: 52, width: "auto", objectFit: "contain", display: "block" }}
+            style={{ height: 96, width: "auto", maxWidth: 320, objectFit: "contain", display: "block" }}
           />
         </div>
         <div style={{ display: "flex", gap: 8 }}>
@@ -209,9 +209,9 @@ export default function LandingPage() {
         <div className="mt-12 md:mt-20 pt-8 flex flex-col md:flex-row justify-between items-center max-w-[1200px] mx-auto gap-6" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <img
-              src="/image.png"
+              src="/logo.png"
               alt="The Neural Kitchen"
-              style={{ height: 40, width: "auto", objectFit: "contain", display: "block", background: "white", borderRadius: 8, padding: 4 }}
+              style={{ height: 80, width: "auto", objectFit: "contain", display: "block", background: "white", borderRadius: 8, padding: 4 }}
             />
           </div>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: 8 }}>

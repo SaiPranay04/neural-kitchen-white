@@ -18,19 +18,25 @@ export default function PortfolioPage() {
     <div style={{ background: C.cream, minHeight: "100vh", fontFamily: "'Inter', system-ui, sans-serif", overflowX: "hidden" }}>
       
       {/* ── NAVBAR ── */}
-      <nav style={{ position: "fixed", top: 0, width: "100%", background: "rgba(250,250,248,0.85)", backdropFilter: "blur(20px)", zIndex: 50, borderBottom: `1px solid ${C.slate200}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <nav style={{ position: "fixed", top: 0, width: "100%", background: "rgba(250,250,248,0.92)", backdropFilter: "blur(20px)", zIndex: 50, borderBottom: `1px solid ${C.slate200}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "12px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, minHeight: 108 }}>
           <div
-            style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
+            style={{ display: "flex", alignItems: "center", cursor: "pointer", flexShrink: 0 }}
             onClick={() => router.push("/")}
           >
             <img
-              src="/image.png"
-              alt="The Neural Kitchen"
-              style={{ height: 52, width: "auto", objectFit: "contain", display: "block" }}
+              src="/logo.png"
+              alt="The Neural Kitchen — Where Intelligence Meets Flavor"
+              style={{
+                height: 96,
+                width: "auto",
+                maxWidth: "min(340px, 55vw)",
+                objectFit: "contain",
+                display: "block",
+              }}
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 28, flexShrink: 0 }}>
             <span onClick={() => router.push("/features/platform")} style={{ color: C.slate600, fontWeight: 500, fontSize: 14, cursor: "pointer" }}>Features</span>
             <button onClick={openMail} style={{ padding: "10px 24px", borderRadius: 12, border: "none", background: C.navy, color: "white", fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", gap: 8, alignItems: "center", boxShadow: `0 8px 24px ${C.navy}40` }}>
               Request Demo <ArrowRight size={16} />
@@ -40,7 +46,7 @@ export default function PortfolioPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{ paddingTop: 140, paddingBottom: 60, paddingLeft: 24, paddingRight: 24, position: "relative" }}>
+      <section style={{ paddingTop: 180, paddingBottom: 60, paddingLeft: 24, paddingRight: 24, position: "relative" }}>
         {/* Background gradient orbs */}
         <div style={{ position: "absolute", top: 60, left: "10%", width: 500, height: 500, background: `radial-gradient(circle, ${C.orange}08, transparent 70%)`, borderRadius: "50%", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: 120, right: "5%", width: 400, height: 400, background: `radial-gradient(circle, ${C.purple}06, transparent 70%)`, borderRadius: "50%", pointerEvents: "none" }} />
@@ -86,141 +92,151 @@ export default function PortfolioPage() {
         </motion.div>
       </section>
 
-      {/* ── HERO IMAGE MOCKUP ── */}
-      <section style={{ padding: "0 24px 120px" }}>
-        <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-          style={{ maxWidth: 1100, margin: "0 auto", background: "white", borderRadius: 24, padding: 8, boxShadow: "0 32px 80px rgba(0,0,0,0.1)", border: `1px solid ${C.slate200}` }}>
-          <div style={{ background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`, borderRadius: 16, padding: "60px 40px", minHeight: 420, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", position: "relative" }}>
-            {/* Decorative grid */}
-            <div style={{ position: "absolute", inset: 0, opacity: 0.05, backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-            
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, width: "100%", maxWidth: 800, position: "relative" }}>
-              {[
-                { label: "Live Orders", val: "24", sub: "Active tickets", color: C.orange },
-                { label: "Revenue Today", val: "₹1,84,200", sub: "+18% vs yesterday", color: C.emerald },
-                { label: "Avg Prep Time", val: "8.2m", sub: "Target: 10m", color: C.cyan },
-              ].map((card, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.15 }}
-                  style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(10px)", borderRadius: 16, padding: "24px 20px", border: "1px solid rgba(255,255,255,0.15)" }}>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>{card.label}</div>
-                  <div style={{ fontSize: 28, fontWeight: 800, color: "white" }}>{card.val}</div>
-                  <div style={{ fontSize: 12, color: card.color, fontWeight: 600, marginTop: 4 }}>{card.sub}</div>
-                </motion.div>
-              ))}
-            </div>
-            <div style={{ marginTop: 32, color: "rgba(255,255,255,0.4)", fontSize: 14, fontWeight: 500 }}>Live Dashboard Preview · Real-time data sync</div>
+      {/* ── HOW IT WORKS ── */}
+      <section style={{ padding: "80px 24px", background: "white" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <div style={{ display: "inline-block", background: `${C.navy}08`, color: C.navy, padding: "6px 14px", borderRadius: 99, fontWeight: 700, fontSize: 12, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>The Flow</div>
+              <h2 style={{ fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, color: C.navy, letterSpacing: "-0.02em", marginBottom: 16 }}>From QR scan to plated dish<br />in one intelligent loop.</h2>
+            </motion.div>
           </div>
-        </motion.div>
-      </section>
-
-      {/* ── "HOW IT WORKS" ── */}
-      <section style={{ padding: "100px 24px", background: "white" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 80 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: `${C.emerald}12`, color: C.emerald, padding: "6px 14px", borderRadius: 99, fontWeight: 700, fontSize: 12, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>How It Works</div>
-            <h2 style={{ fontSize: "clamp(32px, 4vw, 44px)", fontWeight: 800, color: C.navy, letterSpacing: "-0.02em" }}>From order to table in three steps.</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 48 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24 }}>
             {[
               { step: "01", title: "Guest scans the QR code", desc: "Your beautiful digital menu loads instantly on their phone. No app download needed. They browse, filter by allergens, and order directly.", icon: <UtensilsCrossed size={28} /> },
-              { step: "02", title: "Kitchen receives the ticket", desc: "The order routes automatically to the correct station — grill, bar, or pastry. Timers start. The chef sees priority and special notes.", icon: <ChefHat size={28} /> },
+              { step: "02", title: "Kitchen gets the ticket live", desc: "The order appears on the KDS instantly, color-coded by priority and station. Chefs tap to start, mark ready, and never miss a modification.", icon: <ChefHat size={28} /> },
               { step: "03", title: "You track everything live", desc: "Revenue, prep times, and guest satisfaction update in real-time on your dashboard. Zara AI flags bottlenecks before they happen.", icon: <BarChart3 size={28} /> },
-            ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} style={{ position: "relative" }}>
-                <div style={{ fontSize: 64, fontWeight: 900, color: C.slate100, letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 16 }}>{s.step}</div>
-                <div style={{ width: 56, height: 56, borderRadius: 16, background: C.slate50, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, color: C.navy }}>{s.icon}</div>
-                <h3 style={{ fontSize: 20, fontWeight: 700, color: C.navy, marginBottom: 12 }}>{s.title}</h3>
-                <p style={{ color: C.slate600, lineHeight: 1.6, fontSize: 15 }}>{s.desc}</p>
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
+                style={{ padding: 32, borderRadius: 24, background: C.cream, border: `1px solid ${C.slate200}`, position: "relative" }}>
+                <div style={{ fontSize: 48, fontWeight: 800, color: `${C.navy}10`, position: "absolute", top: 16, right: 24, letterSpacing: "-0.04em" }}>{item.step}</div>
+                <div style={{ width: 56, height: 56, borderRadius: 16, background: "white", border: `1px solid ${C.slate200}`, display: "flex", alignItems: "center", justifyContent: "center", color: C.orange, marginBottom: 20, boxShadow: "0 4px 12px rgba(0,0,0,0.04)" }}>
+                  {item.icon}
+                </div>
+                <h3 style={{ fontSize: 20, fontWeight: 700, color: C.navy, marginBottom: 10 }}>{item.title}</h3>
+                <p style={{ fontSize: 15, color: C.slate600, lineHeight: 1.6 }}>{item.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── FLAGSHIP FEATURES ── */}
-      <section style={{ padding: "120px 24px", background: C.cream }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 80 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: `${C.navy}10`, color: C.navy, padding: "6px 14px", borderRadius: 99, fontWeight: 700, fontSize: 12, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>Core Modules</div>
-            <h2 style={{ fontSize: "clamp(32px, 4vw, 44px)", fontWeight: 800, color: C.navy, letterSpacing: "-0.02em" }}>Built for modern hospitality.</h2>
-            <p style={{ fontSize: 18, color: C.slate600, marginTop: 16, maxWidth: 500, margin: "16px auto 0" }}>Four powerful modules that work together seamlessly.</p>
+      {/* ── FEATURES GRID ── */}
+      <section style={{ padding: "100px 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <div style={{ display: "inline-block", background: `${C.orange}12`, color: C.orange, padding: "6px 14px", borderRadius: 99, fontWeight: 700, fontSize: 12, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.05em" }}>Platform</div>
+              <h2 style={{ fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, color: C.navy, letterSpacing: "-0.02em", marginBottom: 16 }}>Every tool. One nervous system.</h2>
+              <p style={{ fontSize: 18, color: C.slate600, maxWidth: 560, margin: "0 auto" }}>Stop duct-taping apps together. Neural Kitchen is the complete operating layer your restaurant was missing.</p>
+            </motion.div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
             {[
-              { icon: <ChefHat size={28} />, title: "Smart Kitchen Display", tagline: "Zero lost tickets. 20% faster prep.", desc: "Every order flows digitally from guest to kitchen station. Color-coded timers keep your line accountable. Smart routing sends drinks to the bar and mains to the grill automatically.", color: C.emerald, link: "/features/kds", stats: "~11 min avg ticket time" },
               { icon: <UtensilsCrossed size={28} />, title: "Interactive Digital Menus", tagline: "Beautiful. Real-time. QR-powered.", desc: "Guests scan a QR code and get a stunning, interactive menu on their phone. When you run out of salmon, it vanishes instantly. AI suggests pairings to boost your average check size.", color: C.orange, link: "/features/menu", stats: "3x upsell conversion" },
-              { icon: <BarChart3 size={28} />, title: "Executive Dashboard", tagline: "Your restaurant's heartbeat, live.", desc: "Track revenue down to the minute. See which dishes drive profit and which ones need to go. Compare locations, monitor staff performance, and spot trends before your competitors.", color: C.navy, link: "/features/admin", stats: "Real-time P&L tracking" },
+              { icon: <ChefHat size={28} />, title: "Kitchen Display System", tagline: "Zero paper. Zero chaos.", desc: "Color-coded tickets land on the right station automatically. Chefs see modifications, timers, and rush alerts. Average ticket time drops by 20%.", color: C.emerald, link: "/features/kds", stats: "20% faster tickets" },
               { icon: <Brain size={28} />, title: "Zara AI Copilot", tagline: "Your 24/7 operations assistant.", desc: "Zara predicts Friday's rush using historical data and local events. She warns you before flour runs out. She answers guest allergen questions right on the menu, in any language.", color: C.purple, link: "/features/ai", stats: "Predictive demand forecasting" },
-            ].map((feature, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              { icon: <BarChart3 size={28} />, title: "Executive Dashboard", tagline: "Your restaurant's financial heartbeat.", desc: "Live revenue, food cost %, labor %, and table turnover — all in one glance. Health scores tell you what's working and what's bleeding money.", color: C.navy, link: "/features/admin", stats: "Real-time P&L visibility" },
+              { icon: <Package size={28} />, title: "Inventory Intelligence", tagline: "Never run out. Never over-order.", desc: "Ingredient levels update with every plate served. Auto-reorder alerts hit your phone before you hit zero. Waste tracking shows exactly where money walks out the door.", color: C.cyan, link: "/features/platform", stats: "Auto low-stock alerts" },
+              { icon: <Users size={28} />, title: "Staff & CRM", tagline: "Happy team. Loyal guests.", desc: "Shift scheduling, performance tracking, and guest profiles with loyalty triggers. Know who your VIPs are and when it's their birthday.", color: C.rose, link: "/features/platform", stats: "VIP guest tagging" },
+            ].map((f, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 onMouseEnter={() => setHoveredFeature(i)} onMouseLeave={() => setHoveredFeature(null)}
-                onClick={() => router.push(feature.link)}
-                style={{ padding: 40, borderRadius: 24, background: "white", border: `1px solid ${hoveredFeature === i ? feature.color + "40" : C.slate200}`, transition: "all 0.3s ease", cursor: "pointer", display: "flex", flexDirection: "column", boxShadow: hoveredFeature === i ? `0 20px 60px ${feature.color}15` : "0 4px 16px rgba(0,0,0,0.03)" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: 16, background: `${feature.color}12`, color: feature.color, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {feature.icon}
+                onClick={() => router.push(f.link)}
+                style={{ background: "white", borderRadius: 24, padding: 32, border: `1.5px solid ${hoveredFeature === i ? f.color + "40" : C.slate200}`, cursor: "pointer", transition: "all 0.25s ease", transform: hoveredFeature === i ? "translateY(-4px)" : "none", boxShadow: hoveredFeature === i ? `0 16px 48px ${f.color}15` : "0 2px 8px rgba(0,0,0,0.03)", position: "relative", overflow: "hidden" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: `${f.color}12`, color: f.color, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {f.icon}
                   </div>
-                  <ArrowUpRight size={20} color={hoveredFeature === i ? feature.color : C.slate300} style={{ transition: "color 0.3s" }} />
+                  <AnimatePresence>
+                    {hoveredFeature === i && (
+                      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} style={{ color: f.color }}>
+                        <ArrowUpRight size={20} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <h3 style={{ fontSize: 22, fontWeight: 700, color: C.navy, marginBottom: 6 }}>{feature.title}</h3>
-                <div style={{ fontSize: 14, fontWeight: 600, color: feature.color, marginBottom: 16 }}>{feature.tagline}</div>
-                <p style={{ color: C.slate600, lineHeight: 1.6, flex: 1, fontSize: 15 }}>{feature.desc}</p>
-                <div style={{ marginTop: 24, padding: "10px 14px", borderRadius: 10, background: C.slate50, display: "inline-flex", alignItems: "center", gap: 6, width: "max-content" }}>
-                  <Zap size={14} color={feature.color} />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: C.slate700 }}>{feature.stats}</span>
+                <h3 style={{ fontSize: 20, fontWeight: 700, color: C.navy, marginBottom: 4 }}>{f.title}</h3>
+                <div style={{ fontSize: 13, fontWeight: 600, color: f.color, marginBottom: 12 }}>{f.tagline}</div>
+                <p style={{ fontSize: 14, color: C.slate600, lineHeight: 1.65, marginBottom: 20 }}>{f.desc}</p>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: `${f.color}10`, color: f.color, padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700 }}>
+                  <Star size={12} fill={f.color} /> {f.stats}
                 </div>
               </motion.div>
             ))}
           </div>
-
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <button onClick={() => router.push("/features/platform")} style={{ padding: "14px 28px", borderRadius: 12, border: `2px solid ${C.slate200}`, background: "transparent", color: C.slate700, fontWeight: 700, fontSize: 15, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8 }}>
-              View All Platform Features <ArrowRight size={16} />
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* ── SOCIAL PROOF / TRUST ── */}
-      <section style={{ padding: "100px 24px", background: "white" }}>
+      {/* ── SOCIAL PROOF ── */}
+      <section style={{ padding: "80px 24px", background: C.navy }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 24 }}>
+              {[1,2,3,4,5].map(i => <Star key={i} size={22} fill={C.orange} color={C.orange} />)}
+            </div>
+            <blockquote style={{ fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 600, color: "white", lineHeight: 1.4, marginBottom: 32, letterSpacing: "-0.01em" }}>
+              "We cut ticket times by 18 minutes and our average check went up ₹220 after switching to Neural Kitchen. The AI upselling alone paid for the whole system in the first month."
+            </blockquote>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
+              <div style={{ width: 48, height: 48, borderRadius: 14, background: `linear-gradient(135deg, ${C.orange}, ${C.orangeLight})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 800, fontSize: 16 }}>RK</div>
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontWeight: 700, color: "white", fontSize: 15 }}>Rajesh Kumar</div>
+                <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 13 }}>Owner, Spice Route · Hyderabad</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── WHY US ── */}
+      <section style={{ padding: "100px 24px" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
             <h2 style={{ fontSize: "clamp(28px, 3.5vw, 40px)", fontWeight: 800, color: C.navy, letterSpacing: "-0.02em" }}>Why restaurant owners choose Neural Kitchen.</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
             {[
-              { quote: "We eliminated paper tickets overnight. Our kitchen runs 20% faster now, and I can track everything from my phone.", name: "Priya Sharma", role: "Owner, Spice Route Mumbai", stars: 5 },
-              { quote: "The AI menu assistant pays for itself. Our average check size went up by ₹340 per table just from intelligent upselling.", name: "Rahul Mehta", role: "GM, The Blue Elephant", stars: 5 },
-              { quote: "Managing 4 branches used to be chaos. Now I open one dashboard and see everything — revenue, inventory, staff, reviews.", name: "Anita Desai", role: "Founder, Desi Kitchen Chain", stars: 5 },
-            ].map((t, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                style={{ padding: 32, borderRadius: 20, background: C.slate50, border: `1px solid ${C.slate100}` }}>
-                <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
-                  {Array(t.stars).fill(0).map((_, j) => <Star key={j} size={16} fill={C.amber} color={C.amber} />)}
+              { icon: <CheckCircle2 size={22} />, title: "Works in 1 day", desc: "No 3-month implementation. Scan, seed your menu, and you're live by dinner service." },
+              { icon: <MessageSquare size={22} />, title: "Built for Indian kitchens", desc: "Handles multi-station Indian restaurants — tandoor, Chinese, south Indian — with separate routing." },
+              { icon: <Shield size={22} />, title: "Your data stays yours", desc: "Hosted securely. No selling guest data. Full export anytime. You own everything." },
+              { icon: <WalletCards size={22} />, title: "Pays for itself", desc: "Most restaurants recover the monthly cost in the first week from reduced waste and higher average checks." },
+              { icon: <Building2 size={22} />, title: "Grows with you", desc: "One location or twenty. Multi-branch control, centralized menus, and side-by-side performance." },
+              { icon: <Zap size={22} />, title: "AI that actually helps", desc: "Not a chatbot bolted on. Zara is woven into every module — menu, kitchen, inventory, and reviews." },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+                style={{ display: "flex", gap: 16, padding: 24, borderRadius: 18, background: "white", border: `1px solid ${C.slate200}` }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${C.orange}12`, color: C.orange, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  {item.icon}
                 </div>
-                <p style={{ color: C.slate700, lineHeight: 1.6, fontSize: 15, marginBottom: 20, fontStyle: "italic" }}>"{t.quote}"</p>
-                <div style={{ fontWeight: 700, color: C.navy, fontSize: 14 }}>{t.name}</div>
-                <div style={{ color: C.slate400, fontSize: 13, marginTop: 2 }}>{t.role}</div>
+                <div>
+                  <div style={{ fontWeight: 700, color: C.navy, fontSize: 16, marginBottom: 4 }}>{item.title}</div>
+                  <div style={{ fontSize: 14, color: C.slate600, lineHeight: 1.55 }}>{item.desc}</div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA SECTION ── */}
-      <section style={{ padding: "120px 24px", background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`, textAlign: "center", color: "white", position: "relative", overflow: "hidden" }}>
-        {/* Decorative gradient orbs */}
-        <div style={{ position: "absolute", top: -100, left: -100, width: 400, height: 400, background: `radial-gradient(circle, ${C.orange}20, transparent 70%)`, borderRadius: "50%" }} />
-        <div style={{ position: "absolute", bottom: -100, right: -100, width: 400, height: 400, background: `radial-gradient(circle, ${C.purple}15, transparent 70%)`, borderRadius: "50%" }} />
-        
-        <div style={{ maxWidth: 700, margin: "0 auto", position: "relative" }}>
+      {/* ── FINAL CTA ── */}
+      <section style={{ padding: "100px 24px", background: `linear-gradient(135deg, ${C.navy} 0%, ${C.navyLight} 100%)`, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -100, right: -100, width: 400, height: 400, background: `radial-gradient(circle, ${C.orange}15, transparent 70%)`, borderRadius: "50%" }} />
+        <div style={{ position: "absolute", bottom: -80, left: -80, width: 300, height: 300, background: `radial-gradient(circle, ${C.purple}10, transparent 70%)`, borderRadius: "50%" }} />
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center", position: "relative" }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 style={{ fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 20, lineHeight: 1.1 }}>Ready to modernize<br />your restaurant?</h2>
+            <h2 style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: 20, lineHeight: 1.1 }}>
+              Ready to run a<br />smarter restaurant?
+            </h2>
             <p style={{ fontSize: 18, color: "rgba(255,255,255,0.7)", marginBottom: 40, lineHeight: 1.6 }}>Stop fighting with outdated POS systems and paper tickets. See how Neural Kitchen can transform your operations in a 15-minute guided tour.</p>
             <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
-              <button onClick={openMail} style={{ padding: "18px 40px", borderRadius: 16, border: "none", background: C.orange, color: "white", fontWeight: 800, fontSize: 18, cursor: "pointer", boxShadow: `0 16px 40px ${C.orange}60`, display: "flex", alignItems: "center", gap: 10 }}>
-                Request a Guided Demo <ArrowRight size={20} />
+              <button onClick={openMail} style={{ padding: "18px 40px", borderRadius: 14, border: "none", background: C.orange, color: "white", fontWeight: 700, fontSize: 17, cursor: "pointer", display: "flex", gap: 10, alignItems: "center", boxShadow: `0 12px 32px ${C.orange}50` }}>
+                Book Your Free Demo <ArrowRight size={20} />
+              </button>
+              <button onClick={() => router.push("/features/platform")} style={{ padding: "18px 40px", borderRadius: 14, border: "1.5px solid rgba(255,255,255,0.25)", background: "transparent", color: "white", fontWeight: 600, fontSize: 17, cursor: "pointer" }}>
+                Explore Features
               </button>
             </div>
             <div style={{ marginTop: 24, fontSize: 14, color: "rgba(255,255,255,0.4)" }}>No credit card required · 15-minute personalized tour</div>
@@ -229,15 +245,13 @@ export default function PortfolioPage() {
       </section>
       
       {/* ── FOOTER ── */}
-      <footer style={{ padding: "48px 24px", borderTop: `1px solid ${C.slate200}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <img
-              src="/image.png"
-              alt="The Neural Kitchen"
-              style={{ height: 44, width: "auto", objectFit: "contain", display: "block" }}
-            />
-          </div>
+      <footer style={{ padding: "40px 24px", borderTop: `1px solid ${C.slate200}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+          <img
+            src="/logo.png"
+            alt="The Neural Kitchen"
+            style={{ height: 88, width: "auto", objectFit: "contain", display: "block" }}
+          />
           <div style={{ color: C.slate400, fontSize: 13 }}>© {new Date().getFullYear()} Vezora Digital. All rights reserved.</div>
         </div>
       </footer>
