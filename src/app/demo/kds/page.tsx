@@ -13,22 +13,49 @@ export default function KDSPage() {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      let isLive = false;
       try {
-        const res = await fetch("/api/orders");
-        const data = await res.json();
-        const grouped: any = { placed: [], preparing: [], ready: [], served: [] };
-        data.forEach((o: any) => {
-          const key = o.stage.toLowerCase();
-          if (grouped[key]) grouped[key].push(o);
-        });
-        setOrders(grouped);
-      } catch (err) {
-        console.error("Failed to fetch orders");
+        const res = await fetch("/api/kitchen/queue?restaurantId=demo-restaurant");
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            isLive = true;
+            const grouped: any = { placed: [], preparing: [], ready: [], served: [] };
+            data.forEach((item: any) => {
+              const stageKey = item.status === "queued" || item.status === "accepted" ? "placed" : item.status === "preparing" ? "preparing" : item.status === "ready" ? "ready" : "served";
+              grouped[stageKey].push({
+                id: item.orders?.display_id || item.id.substring(0, 6),
+                rawId: item.id,
+                table: item.orders?.tables?.number?.toString() || "?",
+                priority: item.priority === 3 ? "urgent" : item.priority === 2 ? "high" : "normal",
+                time: 0,
+                stage: stageKey.charAt(0).toUpperCase() + stageKey.slice(1),
+                items: [item.menu_items?.name + (item.qty > 1 ? ` × ${item.qty}` : "")]
+              });
+            });
+            setOrders(grouped);
+          }
+        }
+      } catch (err) { }
+
+      if (!isLive) {
+        try {
+          const res = await fetch("/api/orders");
+          const data = await res.json();
+          const grouped: any = { placed: [], preparing: [], ready: [], served: [] };
+          data.forEach((o: any) => {
+            const key = o.stage.toLowerCase();
+            if (grouped[key]) grouped[key].push(o);
+          });
+          setOrders(grouped);
+        } catch (err) {
+          console.error("Failed to fetch orders");
+        }
       }
     };
     
     fetchOrders();
-    const t = setInterval(fetchOrders, 2000);
+    const t = setInterval(fetchOrders, 3000);
     const clockTimer = setInterval(() => setTime(n => n + 1), 30000);
     return () => {
       clearInterval(t);
@@ -58,11 +85,20 @@ export default function KDSPage() {
     }));
 
     try {
-      await fetch("/api/orders", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: order.id, stage: newStage })
-      });
+      if (order.rawId) {
+        const nextStatus = toKey === "placed" ? "queued" : toKey;
+        await fetch("/api/kitchen/status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ itemId: order.rawId, next: nextStatus })
+        });
+      } else {
+        await fetch("/api/orders", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: order.id, stage: newStage })
+        });
+      }
     } catch(err) {
       console.error("Failed to update order");
     }

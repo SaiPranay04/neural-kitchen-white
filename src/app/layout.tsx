@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Toaster } from "sonner";
+import { AuthRedirectCatcher } from "@/components/shared/AuthRedirectCatcher";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -17,8 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${jakarta.variable} font-sans antialiased bg-slate-50`} style={{ margin: 0, padding: 0 }}>
+      <body
+        className={`${inter.variable} ${jakarta.variable} font-sans antialiased`}
+        style={{ margin: 0, padding: 0, background: "#FAFAF8" }}
+      >
+        <AuthRedirectCatcher />
         {children}
+        <Toaster theme="light" position="top-right" richColors />
       </body>
     </html>
   );

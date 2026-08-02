@@ -30,8 +30,14 @@ export default function LandingPage() {
               {label}
             </button>
           ))}
+          <button onClick={() => router.push("/staff/login")} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${C.slate200}`, background: "white", color: C.navy, fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
+            Staff Login
+          </button>
+          <button onClick={() => router.push("/r/spice-garden/menu")} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: C.orange, color: "white", fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
+            Live Menu →
+          </button>
           <button onClick={() => onNavigate("admin")} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: C.navy, color: "white", fontWeight: 600, fontSize: 14, cursor: "pointer" }}>
-            Live Demo →
+            Promo Demo
           </button>
         </div>
       </nav>
@@ -58,11 +64,11 @@ export default function LandingPage() {
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button onClick={() => onNavigate("menu")} style={{ padding: "14px 32px", borderRadius: 12, border: "none", background: C.orange, color: "white", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: `0 4px 20px ${C.orange}40` }}>
-            Explore the Menu Experience
+          <button onClick={() => router.push("/r/spice-garden/menu")} style={{ padding: "14px 32px", borderRadius: 12, border: "none", background: C.orange, color: "white", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: `0 4px 20px ${C.orange}40` }}>
+            Try Live Menu (Spice Garden)
           </button>
-          <button onClick={() => onNavigate("admin")} style={{ padding: "14px 32px", borderRadius: 12, border: `1.5px solid ${C.slate200}`, background: "white", color: C.navy, fontWeight: 600, fontSize: 16, cursor: "pointer" }}>
-            View Executive Dashboard
+          <button onClick={() => onNavigate("menu")} style={{ padding: "14px 32px", borderRadius: 12, border: `1.5px solid ${C.slate200}`, background: "white", color: C.navy, fontWeight: 600, fontSize: 16, cursor: "pointer" }}>
+            Explore Promo Menu
           </button>
         </motion.div>
 
