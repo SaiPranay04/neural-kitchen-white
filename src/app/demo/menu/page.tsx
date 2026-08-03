@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, MapPin, Brain, UtensilsCrossed, ShoppingCart, Heart, Plus, Minus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { C, MENU_CATEGORIES, MENU_ITEMS } from "@/lib/constants";
+import { demoZaraReply } from "@/lib/ai/demoZara";
 import { TagBadge, StarRating } from "@/components/Shared";
 import { CartDrawer, ChatDrawer, OrderTracker } from "@/components/MenuComponents";
 
@@ -15,7 +16,7 @@ export default function MenuPage() {
   const [showCart, setShowCart] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([
-    { role: "ai", text: "Hi! I'm Zara, your AI dining assistant 🍽️ What are you in the mood for tonight? I can suggest dishes, flag allergens, or help you build the perfect meal." }
+    { role: "ai", text: "Hi! I'm Zara — ask for veg, biryani, dosa, spicy, under ₹200, or allergens (dairy/nuts). I’ll only suggest dishes from tonight’s menu." }
   ]);
   const [chatInput, setChatInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,21 +77,14 @@ export default function MenuPage() {
     }
   };
 
-  const aiResponses = [
-    "Great choice! Our Wagyu Burger pairs beautifully with the Truffle Fries. Also, tonight's specials include a Pan-Seared Halibut — limited availability!",
-    "For a complete meal, I'd suggest starting with the Burrata & Heirloom, then the Salmon for your main. Our Lava Cake is the perfect finish!",
-    "The Margherita Classica is wood-fired and made with San Marzano tomatoes. It's perfect if you prefer something lighter. Vegetarian too!",
-    "Based on popular orders tonight, the Wagyu Burger and Truffle Arancini are flying out of the kitchen! Our guests love them together.",
-  ];
-
   const sendMessage = () => {
     if (!chatInput.trim()) return;
     const userMsg = chatInput;
     setChatInput("");
     setMessages(m => [...m, { role: "user", text: userMsg }]);
     setTimeout(() => {
-      setMessages(m => [...m, { role: "ai", text: aiResponses[Math.floor(Math.random() * aiResponses.length)] }]);
-    }, 800);
+      setMessages(m => [...m, { role: "ai", text: demoZaraReply(userMsg) }]);
+    }, 500);
   };
 
   return (
@@ -153,7 +147,7 @@ export default function MenuPage() {
           </div>
           <div>
             <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 12, fontWeight: 500 }}>ZARA AI INSIGHT · </span>
-            <span style={{ color: "white", fontSize: 13, fontWeight: 500 }}>The Wagyu Burger is selling 3× faster than usual tonight — order soon to avoid a wait. Lava Cake is our most-complimented dish this week!</span>
+            <span style={{ color: "white", fontSize: 13, fontWeight: 500 }}>Chicken Biryani is selling 3× faster than usual tonight — order soon. Gulab Jamun is our most-complimented dessert this week!</span>
           </div>
           <button onClick={() => setShowChat(true)} style={{ marginLeft: "auto", padding: "7px 16px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.12)", color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
             Ask Zara →
@@ -191,7 +185,7 @@ export default function MenuPage() {
           className="w-[90%] md:w-auto justify-center md:justify-start"
           style={{ position: "fixed", bottom: 90, left: "50%", transform: "translateX(-50%)", background: C.navy, color: "white", border: "none", borderRadius: 99, padding: "14px 28px", display: "flex", alignItems: "center", gap: 10, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: `0 8px 32px ${C.navy}60`, zIndex: 30 }}>
           <ShoppingCart size={18} />
-          View Cart · {cartCount} items · ${cartTotal.toFixed(2)}
+          View Cart · {cartCount} items · ₹{cartTotal.toFixed(0)}
         </motion.button>
       )}
 
@@ -259,7 +253,7 @@ function MenuCard({ item, index, qty, liked, onAdd, onRemove, onLike }: any) {
       <div style={{ padding: "14px 16px 16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: C.navy, flex: 1 }}>{item.name}</div>
-          <div style={{ fontWeight: 800, fontSize: 16, color: C.navy, marginLeft: 8 }}>${item.price}</div>
+          <div style={{ fontWeight: 800, fontSize: 16, color: C.navy, marginLeft: 8 }}>₹{item.price}</div>
         </div>
         <div style={{ fontSize: 12, color: C.slate400, marginBottom: 14 }}>{item.category}</div>
 

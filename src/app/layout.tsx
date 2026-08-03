@@ -10,6 +10,10 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakart
 export const metadata: Metadata = {
   title: "Neural Kitchen",
   description: "AI-Native Restaurant Operating System",
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.png" }],
+  },
 };
 
 export default function RootLayout({

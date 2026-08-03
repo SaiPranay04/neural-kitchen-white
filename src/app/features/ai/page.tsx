@@ -70,10 +70,10 @@ export default function AIFeaturePage() {
           </div>
           <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
             {[
-              { role: "user", text: "Do you have anything gluten-free?" },
-              { role: "ai", text: "Absolutely! We have 6 gluten-free options tonight. I'd recommend our Pan-Seared Salmon (₹32.99) — it's our top-rated main. The Caesar Supreme salad is also GF and pairs beautifully with it. Would you like to see the full list?" },
-              { role: "user", text: "What goes well with the salmon?" },
-              { role: "ai", text: "Great choice! Our sommelier recommends a glass of Sauvignon Blanc. For sides, the Truffle Fries are incredibly popular with the salmon. And save room — our Berry Panna Cotta is gluten-free too! 🍷" },
+              { role: "user", text: "Any mild veg options for kids?" },
+              { role: "ai", text: "Yes! I'd recommend Butter Paneer (₹249) — mild and popular. Ghee roast dosa with coconut chutney is also a safe pick. Want me to add sweet lassi for the table?" },
+              { role: "user", text: "What goes well with the paneer?" },
+              { role: "ai", text: "Great choice! Pair it with butter naan or jeera rice. Many guests also add a small raita. If you want something sweeter after, gulab jamun is our most ordered dessert tonight." },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
                 style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
@@ -95,7 +95,7 @@ export default function AIFeaturePage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
             {[
               { icon: <TrendingUp size={28} />, title: "Predictive Demand", desc: "Zara cross-references your historical order data with local events, weather, and booking patterns. She'll tell you on Wednesday that Friday's dinner service will be 30% busier than usual — and exactly how much extra stock to prep.", color: C.purple },
-              { icon: <Package size={28} />, title: "Auto-Inventory", desc: "Zara monitors your ingredient consumption in real-time. When flour drops below your safety threshold, she sends a reorder suggestion before you even notice. No more running out of tomatoes at 9 PM on a Saturday.", color: C.orange },
+              { icon: <Package size={28} />, title: "Auto-Inventory", desc: "Zara monitors consumption in real time. When paneer, cooking oil, or basmati rice drops below your safety threshold, she flags reorder before the dinner rush. No more running out of coconut chutney at 9 PM.", color: C.orange },
               { icon: <MessageSquare size={28} />, title: "Guest Concierge", desc: "On the customer's menu, Zara answers questions in natural language: 'What can I eat with a nut allergy?' She responds instantly in any language, builds trust, and removes ordering anxiety.", color: C.emerald },
             ].map((pillar, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}

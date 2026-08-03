@@ -99,8 +99,8 @@ export default function MenuFeaturePage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {[
-              { icon: <Sparkles size={22} />, title: "AI-Powered Upselling", desc: "When a guest adds a Wagyu Burger, Zara suggests Truffle Fries. When they browse desserts, she recommends the perfect wine pairing. Average check size goes up without feeling pushy.", color: C.purple },
-              { icon: <Smartphone size={22} />, title: "Live Inventory Sync", desc: "Ran out of salmon at 8:30 PM? It vanishes from the menu across all devices immediately. No awkward 'sorry, we're out of that' moments. No stale printed menus.", color: C.orange },
+              { icon: <Sparkles size={22} />, title: "AI-Powered Upselling", desc: "When a guest adds chicken biryani, Zara suggests raita and falooda. When they browse breakfast, she recommends filter coffee with dosa. Average check goes up without feeling pushy.", color: C.purple },
+              { icon: <Smartphone size={22} />, title: "Live Inventory Sync", desc: "Ran out of paneer at 8:30 PM? It vanishes from the menu across all devices immediately. Same for idli batter or coconut chutney — no awkward 'sorry, we're out' moments.", color: C.orange },
               { icon: <Filter size={22} />, title: "Dietary & Allergen Filters", desc: "Guests can tap 'Gluten-Free', 'Vegan', or 'Nut-Free' and the menu filters instantly. This builds trust and removes the anxiety of ordering at a new restaurant.", color: C.emerald },
               { icon: <CheckCircle2 size={22} />, title: "Instant Price Updates", desc: "Changed a price? Updated a description? Added a seasonal special? It's live in seconds across every table. No reprinting, no stickers over old prices.", color: C.navy },
             ].map((f, i) => (

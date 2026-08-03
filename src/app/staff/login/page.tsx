@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition, type CSSProperties } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, hasSupabasePublicEnv } from "@/lib/supabase/client";
 import { C } from "@/lib/constants";
 
 const ERRORS: Record<string, string> = {
@@ -28,27 +28,46 @@ export default function StaffLoginPage() {
   const [pending, startTransition] = useTransition();
 
   useEffect(() => {
+    if (!hasSupabasePublicEnv()) {
+      toast.error(
+        "Supabase is not configured on this deploy. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel env, then redeploy."
+      );
+    }
     const err = search.get("error");
     if (err && ERRORS[err]) {
       toast.error(ERRORS[err]);
-      if (err === "not_invited") {
-        createClient().auth.signOut();
+      if (err === "not_invited" && hasSupabasePublicEnv()) {
+        try {
+          createClient().auth.signOut();
+        } catch {
+          /* ignore */
+        }
       }
     }
   }, [search]);
 
   function signInPassword() {
     startTransition(async () => {
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) {
-        toast.error(error.message);
+      if (!hasSupabasePublicEnv()) {
+        toast.error(
+          "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY and redeploy."
+        );
         return;
       }
-      await routeAfterSession(data.user!.id);
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) {
+          toast.error(error.message);
+          return;
+        }
+        await routeAfterSession(data.user!.id);
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Login failed");
+      }
     });
   }
 
@@ -76,22 +95,32 @@ export default function StaffLoginPage() {
 
   function sendOtp() {
     startTransition(async () => {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-          shouldCreateUser: false,
-        },
-      });
-      if (error) {
+      if (!hasSupabasePublicEnv()) {
         toast.error(
-          `OTP: ${error.message}. Use Email + Password if mail is not configured.`
+          "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY and redeploy."
         );
         return;
       }
-      setOtpSent(true);
-      toast.success("OTP sent — enter the code from your email, or use the magic link");
+      try {
+        const supabase = createClient();
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            shouldCreateUser: false,
+          },
+        });
+        if (error) {
+          toast.error(
+            `OTP: ${error.message}. Use Email + Password if mail is not configured.`
+          );
+          return;
+        }
+        setOtpSent(true);
+        toast.success("OTP sent — enter the code from your email, or use the magic link");
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "OTP failed");
+      }
     });
   }
 
@@ -101,21 +130,31 @@ export default function StaffLoginPage() {
         toast.error("Enter the OTP code from your email");
         return;
       }
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token: otpCode.trim(),
-        type: "email",
-      });
-      if (error) {
-        toast.error(error.message);
+      if (!hasSupabasePublicEnv()) {
+        toast.error(
+          "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY and redeploy."
+        );
         return;
       }
-      if (!data.user) {
-        toast.error(ERRORS.no_user);
-        return;
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase.auth.verifyOtp({
+          email,
+          token: otpCode.trim(),
+          type: "email",
+        });
+        if (error) {
+          toast.error(error.message);
+          return;
+        }
+        if (!data.user) {
+          toast.error(ERRORS.no_user);
+          return;
+        }
+        await routeAfterSession(data.user.id);
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "OTP verify failed");
       }
-      await routeAfterSession(data.user.id);
     });
   }
 

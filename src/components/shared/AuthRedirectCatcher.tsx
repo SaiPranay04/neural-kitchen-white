@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, hasSupabasePublicEnv } from "@/lib/supabase/client";
 
 /**
  * Invites sometimes land on Site URL (/) with ?code= or #access_token=
@@ -24,18 +24,23 @@ export function AuthRedirectCatcher() {
     const access_token = hash.get("access_token");
     const refresh_token = hash.get("refresh_token");
     if (!access_token || !refresh_token) return;
+    if (!hasSupabasePublicEnv()) return;
 
-    const supabase = createClient();
-    supabase.auth
-      .setSession({ access_token, refresh_token })
-      .then(({ error }) => {
-        if (error) {
-          router.replace("/staff/login?error=auth_failed");
-          return;
-        }
-        window.history.replaceState({}, "", url.pathname);
-        router.replace("/staff/set-password");
-      });
+    try {
+      const supabase = createClient();
+      supabase.auth
+        .setSession({ access_token, refresh_token })
+        .then(({ error }) => {
+          if (error) {
+            router.replace("/staff/login?error=auth_failed");
+            return;
+          }
+          window.history.replaceState({}, "", url.pathname);
+          router.replace("/staff/set-password");
+        });
+    } catch {
+      // Env missing in this deploy — ignore hash catcher
+    }
   }, [router]);
 
   return null;

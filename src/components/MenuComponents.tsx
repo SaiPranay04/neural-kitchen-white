@@ -68,32 +68,32 @@ export function CartDrawer({ cart, onClose, onAdd, onRemove, total, onPlaceOrder
               <img src={item.img} alt={item.name} style={{ width: 56, height: 56, borderRadius: 10, objectFit: "cover" }} />
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 600, fontSize: 14, color: C.navy }}>{item.name}</div>
-                <div style={{ fontSize: 13, color: C.slate400 }}>${item.price} each</div>
+                <div style={{ fontSize: 13, color: C.slate400 }}>₹{item.price} each</div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <button onClick={() => onRemove(item.id)} style={{ width: 26, height: 26, borderRadius: 6, border: `1px solid ${C.slate200}`, background: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><Minus size={12} /></button>
                 <span style={{ fontWeight: 700, minWidth: 20, textAlign: "center" }}>{qty}</span>
                 <button onClick={() => onAdd(item.id)} style={{ width: 26, height: 26, borderRadius: 6, border: "none", background: C.navy, color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><Plus size={12} /></button>
               </div>
-              <div style={{ fontWeight: 700, fontSize: 14, color: C.navy, minWidth: 52, textAlign: "right" }}>${(item.price * qty).toFixed(2)}</div>
+              <div style={{ fontWeight: 700, fontSize: 14, color: C.navy, minWidth: 52, textAlign: "right" }}>₹{(item.price * qty).toFixed(0)}</div>
             </div>
           ))}
           <div style={{ background: C.slate50, borderRadius: 12, padding: "14px 16px", marginTop: 8 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: C.slate600, marginBottom: 6 }}>
-              <span>Subtotal</span><span>${total.toFixed(2)}</span>
+              <span>Subtotal</span><span>₹{total.toFixed(0)}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: C.slate600, marginBottom: 6 }}>
-              <span>Service (10%)</span><span>${(total * 0.1).toFixed(2)}</span>
+              <span>Service (10%)</span><span>₹{(total * 0.1).toFixed(0)}</span>
             </div>
             <div style={{ height: 1, background: C.slate200, margin: "10px 0" }} />
             <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 800, fontSize: 16, color: C.navy }}>
-              <span>Total</span><span>${(total * 1.1).toFixed(2)}</span>
+              <span>Total</span><span>₹{(total * 1.1).toFixed(0)}</span>
             </div>
           </div>
         </div>
         <div style={{ padding: "20px 24px", borderTop: `1px solid ${C.slate200}` }}>
           <button onClick={onPlaceOrder} style={{ width: "100%", padding: "16px", borderRadius: 14, border: "none", background: C.navy, color: "white", fontWeight: 700, fontSize: 16, cursor: "pointer" }}>
-            Place Order · ${(total * 1.1).toFixed(2)}
+            Place Order · ₹{(total * 1.1).toFixed(0)}
           </button>
         </div>
       </motion.div>
@@ -135,7 +135,7 @@ export function ChatDrawer({ messages, input, onInputChange, onSend, onClose }: 
         <div style={{ padding: "12px 16px", borderTop: `1px solid ${C.slate200}`, display: "flex", gap: 8 }}>
           <input value={input} onChange={e => onInputChange(e.target.value)}
             onKeyDown={e => e.key === "Enter" && onSend()}
-            placeholder="Ask about allergens, recommendations..." style={{ flex: 1, padding: "10px 14px", borderRadius: 10, border: `1px solid ${C.slate200}`, fontSize: 14, outline: "none" }} />
+            placeholder="Try: veg under ₹200, paneer, spicy, dairy allergy..." style={{ flex: 1, padding: "10px 14px", borderRadius: 10, border: `1px solid ${C.slate200}`, fontSize: 14, outline: "none" }} />
           <button onClick={onSend} style={{ width: 40, height: 40, borderRadius: 10, border: "none", background: C.orange, color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Send size={16} />
           </button>

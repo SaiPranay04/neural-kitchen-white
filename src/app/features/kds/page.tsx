@@ -102,7 +102,7 @@ export default function KDSFeaturePage() {
               { icon: <Timer size={22} />, title: "Live Prep Timers", desc: "Every ticket has a color-coded timer. Green means on track. Yellow means hurry. Red means the customer is waiting too long. Your team always knows what to prioritize.", color: C.amber },
               { icon: <MonitorCheck size={22} />, title: "Kanban-Style Workflow", desc: "Orders flow through visual columns: Placed → Preparing → Ready → Served. One tap advances a ticket. The entire team sees progress at a glance.", color: C.cyan },
               { icon: <Zap size={22} />, title: "Priority Escalation", desc: "VIP tables, large parties, and time-sensitive orders are automatically flagged with priority badges. Your kitchen never misses the important ones.", color: C.orange },
-              { icon: <Clock size={22} />, title: "AI Time Forecasting", desc: "Zara AI learns your kitchen's rhythm and predicts when stations will be overloaded. She'll suggest pre-prepping 6 extra burgers before the Friday rush even starts.", color: C.purple },
+              { icon: <Clock size={22} />, title: "AI Time Forecasting", desc: "Zara AI learns your kitchen's rhythm and predicts when stations will be overloaded. She'll suggest soaking extra basmati or prepping more dosa batter before the Friday rush.", color: C.purple },
             ].map((f, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 style={{ background: "white", padding: "28px 32px", borderRadius: 20, border: `1px solid ${C.slate200}`, display: "flex", gap: 20, alignItems: "flex-start", boxShadow: "0 4px 16px rgba(0,0,0,0.03)" }}>

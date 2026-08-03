@@ -30,41 +30,58 @@ export const C = {
   roseLight: "#FFE4E6",
 };
 
-export const MENU_CATEGORIES = ["All", "Starters", "Mains", "Burgers", "Pizza", "Salads", "Desserts", "Drinks"];
+export const MENU_CATEGORIES = ["All", "Starters", "Tandoor", "Biryani", "Dosa", "Curries", "Desserts", "Drinks"];
 
-export const MENU_ITEMS = [
-  { id: 1, name: "Truffle Arancini", category: "Starters", price: 14.99, rating: 4.8, reviews: 203, tag: "Chef's Pick", calories: 320, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&q=80" },
-  { id: 2, name: "Wagyu Beef Burger", category: "Burgers", price: 26.99, rating: 4.9, reviews: 451, tag: "Best Seller", calories: 780, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop&q=80" },
-  { id: 3, name: "Margherita Classica", category: "Pizza", price: 18.99, rating: 4.7, reviews: 334, tag: "New", calories: 620, img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop&q=80" },
-  { id: 4, name: "Pan-Seared Salmon", category: "Mains", price: 32.99, rating: 4.8, reviews: 189, tag: "Healthy", calories: 490, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop&q=80" },
-  { id: 5, name: "Caesar Supreme", category: "Salads", price: 16.99, rating: 4.6, reviews: 127, tag: "", calories: 380, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&h=300&fit=crop&q=80" },
-  { id: 6, name: "Lava Chocolate Cake", category: "Desserts", price: 12.99, rating: 4.9, reviews: 512, tag: "Fan Fave", calories: 560, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&h=300&fit=crop&q=80" },
-  { id: 7, name: "Burrata & Heirloom", category: "Starters", price: 17.99, rating: 4.7, reviews: 98, tag: "Seasonal", calories: 290, img: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=400&h=300&fit=crop&q=80" },
-  { id: 8, name: "Truffle Mushroom Pasta", category: "Mains", price: 24.99, rating: 4.8, reviews: 267, tag: "Vegetarian", calories: 560, img: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop&q=80" },
-  { id: 9, name: "Smash Burger Stack", category: "Burgers", price: 21.99, rating: 4.7, reviews: 388, tag: "", calories: 720, img: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&h=300&fit=crop&q=80" },
-  { id: 10, name: "Spicy Tuna Pizza", category: "Pizza", price: 22.99, rating: 4.6, reviews: 156, tag: "Spicy", calories: 690, img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=300&fit=crop&q=80" },
-  { id: 11, name: "Berry Panna Cotta", category: "Desserts", price: 11.99, rating: 4.7, reviews: 143, tag: "", calories: 340, img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop&q=80" },
-  { id: 12, name: "Mango Passion Cooler", category: "Drinks", price: 8.99, rating: 4.8, reviews: 201, tag: "Signature", calories: 180, img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop&q=80" },
+export type DemoMenuItem = {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  rating: number;
+  reviews: number;
+  tag: string;
+  calories: number;
+  img: string;
+  veg: boolean;
+  spicy: number; // 0 mild · 1 medium · 2 hot
+  tags: string[];
+  allergens: string[];
+  desc: string;
+};
+
+export const MENU_ITEMS: DemoMenuItem[] = [
+  { id: 1, name: "Paneer Tikka", category: "Tandoor", price: 249, rating: 4.8, reviews: 203, tag: "Chef's Pick", calories: 320, veg: true, spicy: 1, tags: ["paneer", "tandoor", "starter"], allergens: ["dairy"], desc: "Cottage cheese tikka with mint chutney.", img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d9?w=400&h=300&fit=crop&q=80" },
+  { id: 2, name: "Chicken Biryani", category: "Biryani", price: 299, rating: 4.9, reviews: 451, tag: "Best Seller", calories: 780, veg: false, spicy: 1, tags: ["biryani", "chicken", "rice"], allergens: ["dairy"], desc: "Dum biryani with raita.", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop&q=80" },
+  { id: 3, name: "Masala Dosa", category: "Dosa", price: 129, rating: 4.7, reviews: 334, tag: "Breakfast", calories: 420, veg: true, spicy: 0, tags: ["dosa", "south-indian", "breakfast"], allergens: [], desc: "Crispy dosa with potato masala and coconut chutney.", img: "https://images.unsplash.com/photo-1630383249896-424e482df921?w=400&h=300&fit=crop&q=80" },
+  { id: 4, name: "Butter Paneer", category: "Curries", price: 249, rating: 4.8, reviews: 189, tag: "Veg Favourite", calories: 490, veg: true, spicy: 0, tags: ["paneer", "curry", "creamy"], allergens: ["dairy", "nuts"], desc: "Creamy tomato-butter gravy with soft paneer.", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&h=300&fit=crop&q=80" },
+  { id: 5, name: "Idli Sambar", category: "Starters", price: 89, rating: 4.6, reviews: 127, tag: "", calories: 280, veg: true, spicy: 0, tags: ["idli", "south-indian", "light"], allergens: [], desc: "Steamed idli with hot sambar.", img: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&h=300&fit=crop&q=80" },
+  { id: 6, name: "Gulab Jamun", category: "Desserts", price: 99, rating: 4.9, reviews: 512, tag: "Fan Fave", calories: 360, veg: true, spicy: 0, tags: ["dessert", "sweet", "mithai"], allergens: ["dairy", "gluten"], desc: "Soft milk dumplings in rose syrup.", img: "https://images.unsplash.com/photo-1666190102466-4ee27f1c72b3?w=400&h=300&fit=crop&q=80" },
+  { id: 7, name: "Chicken 65", category: "Starters", price: 219, rating: 4.7, reviews: 98, tag: "Spicy", calories: 390, veg: false, spicy: 2, tags: ["chicken", "spicy", "starter"], allergens: [], desc: "Crispy spicy chicken starter.", img: "https://images.unsplash.com/photo-1606491956689-2ea866880017?w=400&h=300&fit=crop&q=80" },
+  { id: 8, name: "Veg Fried Rice", category: "Curries", price: 179, rating: 4.5, reviews: 167, tag: "Vegetarian", calories: 520, veg: true, spicy: 0, tags: ["rice", "veg"], allergens: ["soy"], desc: "Wok-tossed veg rice.", img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop&q=80" },
+  { id: 9, name: "Mutton Rogan Josh", category: "Curries", price: 349, rating: 4.7, reviews: 188, tag: "", calories: 620, veg: false, spicy: 1, tags: ["mutton", "curry"], allergens: ["dairy"], desc: "Slow-cooked Kashmiri-style mutton curry.", img: "https://images.unsplash.com/photo-1545247181-516773cae754?w=400&h=300&fit=crop&q=80" },
+  { id: 10, name: "Ghee Roast Dosa", category: "Dosa", price: 149, rating: 4.6, reviews: 156, tag: "Crispy", calories: 450, veg: true, spicy: 0, tags: ["dosa", "south-indian"], allergens: ["dairy"], desc: "Golden dosa roasted in ghee.", img: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=400&h=300&fit=crop&q=80" },
+  { id: 11, name: "Rasmalai", category: "Desserts", price: 119, rating: 4.7, reviews: 143, tag: "", calories: 310, veg: true, spicy: 0, tags: ["dessert", "sweet", "dairy"], allergens: ["dairy"], desc: "Soft paneer discs in saffron milk.", img: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&h=300&fit=crop&q=80" },
+  { id: 12, name: "Filter Coffee", category: "Drinks", price: 49, rating: 4.8, reviews: 201, tag: "Signature", calories: 80, veg: true, spicy: 0, tags: ["drink", "coffee", "south-indian"], allergens: ["dairy"], desc: "South Indian filter coffee.", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=300&fit=crop&q=80" },
 ];
 
 export const KDS_ORDERS = {
   placed: [
-    { id: "ORD-1042", table: 7, items: ["Wagyu Burger", "Truffle Fries"], time: 2, priority: "high" },
-    { id: "ORD-1043", table: 12, items: ["Margherita", "Caesar"], time: 1, priority: "normal" },
+    { id: "ORD-1042", table: 7, items: ["Chicken Biryani", "Raita"], time: 2, priority: "high" },
+    { id: "ORD-1043", table: 12, items: ["Masala Dosa", "Filter Coffee"], time: 1, priority: "normal" },
   ],
   preparing: [
-    { id: "ORD-1038", table: 3, items: ["Salmon", "Burrata", "Pasta"], time: 8, priority: "high" },
-    { id: "ORD-1039", table: 9, items: ["Lava Cake x2", "Panna Cotta"], time: 6, priority: "normal" },
-    { id: "ORD-1040", table: 5, items: ["Smash Burger", "Onion Rings"], time: 12, priority: "urgent" },
+    { id: "ORD-1038", table: 3, items: ["Butter Paneer", "Butter Naan", "Jeera Rice"], time: 8, priority: "high" },
+    { id: "ORD-1039", table: 9, items: ["Gulab Jamun x2", "Rasmalai"], time: 6, priority: "normal" },
+    { id: "ORD-1040", table: 5, items: ["Chicken 65", "Veg Fried Rice"], time: 12, priority: "urgent" },
   ],
   ready: [
-    { id: "ORD-1035", table: 2, items: ["Arancini", "Spicy Tuna Pizza"], time: 4, priority: "normal" },
-    { id: "ORD-1036", table: 11, items: ["Berry Panna Cotta"], time: 2, priority: "normal" },
+    { id: "ORD-1035", table: 2, items: ["Paneer Tikka", "Ghee Roast Dosa"], time: 4, priority: "normal" },
+    { id: "ORD-1036", table: 11, items: ["Idli Sambar"], time: 2, priority: "normal" },
   ],
   served: [
-    { id: "ORD-1030", table: 1, items: ["Caesar x2", "Salmon"], time: 0, priority: "normal" },
-    { id: "ORD-1031", table: 6, items: ["Wagyu Burger", "Mango Cooler"], time: 0, priority: "normal" },
-    { id: "ORD-1032", table: 8, items: ["Pizza x2", "Lava Cake"], time: 0, priority: "normal" },
+    { id: "ORD-1030", table: 1, items: ["Idli x2", "Filter Coffee"], time: 0, priority: "normal" },
+    { id: "ORD-1031", table: 6, items: ["Chicken Biryani", "Sweet Lassi"], time: 0, priority: "normal" },
+    { id: "ORD-1032", table: 8, items: ["Masala Dosa x2", "Gulab Jamun"], time: 0, priority: "normal" },
   ],
 };
 
@@ -79,11 +96,11 @@ export const REVENUE_DATA = [
 ];
 
 export const CATEGORY_DATA = [
-  { name: "Mains", value: 38, color: C.navy },
-  { name: "Burgers", value: 24, color: C.orange },
-  { name: "Pizza", value: 18, color: C.emerald },
-  { name: "Desserts", value: 12, color: C.purple },
-  { name: "Other", value: 8, color: C.slate400 },
+  { name: "Biryani", value: 32, color: C.navy },
+  { name: "Tandoor", value: 22, color: C.orange },
+  { name: "Dosa", value: 18, color: C.emerald },
+  { name: "Curries", value: 16, color: C.purple },
+  { name: "Other", value: 12, color: C.slate400 },
 ];
 
 export const BENTO_MODULES = [
