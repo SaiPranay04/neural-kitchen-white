@@ -41,6 +41,11 @@ import type { DashboardOps } from "@/lib/analytics/types";
 import { formatINR } from "@/lib/utils";
 import { SignOutButton } from "@/components/shared/SignOutButton";
 import { StatusDot } from "@/components/shared/StatusDot";
+import { InventoryActions } from "@/components/dashboard/InventoryActions";
+import { StaffManager } from "@/components/dashboard/StaffManager";
+import { KitchenClient } from "@/components/kitchen/KitchenClient";
+import { WaiterClient } from "@/components/waiter/WaiterClient";
+import type { MemberRole } from "@/types/database";
 
 const PIE_COLORS = [C.navy, C.orange, C.emerald, C.purple, C.cyan, C.slate400];
 
@@ -54,12 +59,26 @@ type TabId =
   | "kitchen"
   | "waiter";
 
+const TAB_TITLES: Record<TabId, string> = {
+  overview: "Overview",
+  analytics: "Analytics",
+  orders: "Orders",
+  tables: "Tables",
+  inventory: "Inventory",
+  staff: "Users",
+  kitchen: "Kitchen",
+  waiter: "Waiter",
+};
+
 type Props = {
   mode: "live" | "promo";
   analytics: AnalyticsBundle;
   ops: DashboardOps;
   canViewUsers?: boolean;
   actorName?: string;
+  actorRole?: MemberRole;
+  assignableRoles?: MemberRole[];
+  kitchenIngredients?: { id: string; name: string }[];
   initialTab?: TabId;
   /** Preformatted on the server to avoid locale hydration mismatches */
   dateLabel: string;
@@ -71,6 +90,9 @@ export function ExecutiveDashboard({
   ops,
   canViewUsers = false,
   actorName = "Manager",
+  actorRole,
+  assignableRoles = [],
+  kitchenIngredients = [],
   initialTab = "overview",
   dateLabel,
 }: Props) {
@@ -82,54 +104,33 @@ export function ExecutiveDashboard({
     const items: { id: TabId; label: string; icon: ReactNode; href?: string; section?: string }[] = [
       { id: "overview", label: "Overview", icon: <LayoutDashboard size={17} /> },
       { id: "analytics", label: "Analytics", icon: <BarChart3 size={17} /> },
+      { id: "orders", label: "Orders", icon: <ShoppingBag size={17} /> },
+      { id: "tables", label: "Tables", icon: <UtensilsCrossed size={17} /> },
+      { id: "inventory", label: "Inventory", icon: <Package size={17} /> },
     ];
-    if (mode === "live") {
-      items.push(
-        { id: "orders", label: "Orders", icon: <ShoppingBag size={17} />, href: "/dashboard/orders" },
-        { id: "tables", label: "Tables", icon: <UtensilsCrossed size={17} />, href: "/dashboard/tables" },
-        { id: "inventory", label: "Inventory", icon: <Package size={17} />, href: "/dashboard/inventory" },
-        {
-          id: "kitchen",
-          label: "Kitchen",
-          icon: <ChefHat size={17} />,
-          href: "/staff/kitchen",
-          section: "floor",
-        },
-        {
-          id: "waiter",
-          label: "Waiter",
-          icon: <ConciergeBell size={17} />,
-          href: "/staff/waiter",
-          section: "floor",
-        }
-      );
-      if (canViewUsers) {
-        items.push({
-          id: "staff",
-          label: "Users",
-          icon: <UserCheck size={17} />,
-          href: "/dashboard/staff",
-        });
-      }
-    } else {
-      // Promo showcase shortcuts
-      items.push(
-        {
-          id: "kitchen",
-          label: "Kitchen",
-          icon: <ChefHat size={17} />,
-          href: "/demo/kds",
-          section: "floor",
-        },
-        {
-          id: "waiter",
-          label: "Waiter",
-          icon: <ConciergeBell size={17} />,
-          href: "/staff/login",
-          section: "floor",
-        }
-      );
+    if (mode === "live" && canViewUsers) {
+      items.push({
+        id: "staff",
+        label: "Users",
+        icon: <UserCheck size={17} />,
+      });
     }
+    items.push(
+      {
+        id: "kitchen",
+        label: "Kitchen",
+        icon: <ChefHat size={17} />,
+        href: mode === "promo" ? "/demo/kds" : undefined,
+        section: "floor",
+      },
+      {
+        id: "waiter",
+        label: "Waiter",
+        icon: <ConciergeBell size={17} />,
+        href: mode === "promo" ? "/staff/login" : undefined,
+        section: "floor",
+      }
+    );
     return items;
   }, [mode, canViewUsers]);
 
@@ -147,12 +148,20 @@ export function ExecutiveDashboard({
     }));
   }, [analytics, range]);
 
+  function selectTab(id: TabId) {
+    setTab(id);
+    if (mode === "live") {
+      const url = id === "overview" ? "/dashboard" : `/dashboard?tab=${id}`;
+      router.replace(url, { scroll: false });
+    }
+  }
+
   function onNav(item: (typeof navItems)[number]) {
     if (item.href) {
       router.push(item.href);
       return;
     }
-    setTab(item.id);
+    selectTab(item.id);
   }
 
   const health = analytics.health;
@@ -286,7 +295,7 @@ export function ExecutiveDashboard({
         >
           <div>
             <div style={{ fontWeight: 700, fontSize: 17, color: C.navy }}>
-              {tab === "overview" ? "Overview" : "Analytics"}
+              {TAB_TITLES[tab] ?? "Overview"}
             </div>
             <div style={{ fontSize: 12, color: C.slate400 }}>{dateLabel}</div>
           </div>
@@ -315,7 +324,7 @@ export function ExecutiveDashboard({
             <button
               type="button"
               onClick={() =>
-                router.push(mode === "live" ? "/staff/waiter" : "/staff/login")
+                mode === "live" ? selectTab("waiter") : router.push("/staff/login")
               }
               className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg border font-semibold text-[12px] md:text-[13px] cursor-pointer whitespace-nowrap bg-white"
               style={{ borderColor: C.slate200, color: C.navy }}
@@ -325,7 +334,7 @@ export function ExecutiveDashboard({
             <button
               type="button"
               onClick={() =>
-                router.push(mode === "live" ? "/staff/kitchen" : "/demo/kds")
+                mode === "live" ? selectTab("kitchen") : router.push("/demo/kds")
               }
               className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg border-none text-white font-semibold text-[12px] md:text-[13px] cursor-pointer whitespace-nowrap"
               style={{ background: C.navy }}
@@ -346,20 +355,47 @@ export function ExecutiveDashboard({
               setRange={setRange}
               health={health}
               circumference={circumference}
-              onOpenAnalytics={() => setTab("analytics")}
+              onOpenAnalytics={() => selectTab("analytics")}
+              onOpenOrders={() => selectTab("orders")}
+              onOpenTables={() => selectTab("tables")}
               onOpenMenu={() =>
-                router.push(mode === "live" ? "/r/spice-garden/menu" : "/demo/menu")
+                router.push(
+                  mode === "live" ? `/r/${ops.restaurantSlug}/menu` : "/demo/menu"
+                )
               }
               onOpenKds={() =>
-                router.push(mode === "live" ? "/staff/kitchen" : "/demo/kds")
+                mode === "live" ? selectTab("kitchen") : router.push("/demo/kds")
               }
               onOpenWaiter={() =>
-                router.push(mode === "live" ? "/staff/waiter" : "/staff/login")
+                mode === "live" ? selectTab("waiter") : router.push("/staff/login")
               }
             />
           )}
           {tab === "analytics" && (
             <AnalyticsTab analytics={analytics} trend={trend} range={range} setRange={setRange} />
+          )}
+          {tab === "orders" && <OrdersTab ops={ops} />}
+          {tab === "tables" && <TablesTab ops={ops} />}
+          {tab === "inventory" && <InventoryTab ops={ops} mode={mode} />}
+          {tab === "staff" && canViewUsers && actorRole && (
+            <StaffTab actorRole={actorRole} assignableRoles={assignableRoles} />
+          )}
+          {tab === "kitchen" && mode === "live" && (
+            <KitchenClient
+              restaurantId={ops.restaurantId}
+              initialTickets={[]}
+              ingredients={kitchenIngredients}
+              embedded
+            />
+          )}
+          {tab === "waiter" && mode === "live" && (
+            <WaiterClient
+              restaurantId={ops.restaurantId}
+              initialTables={[]}
+              initialRequests={[]}
+              initialReady={[]}
+              embedded
+            />
           )}
         </div>
       </div>
@@ -377,6 +413,8 @@ function OverviewTab({
   health,
   circumference,
   onOpenAnalytics,
+  onOpenOrders,
+  onOpenTables,
   onOpenMenu,
   onOpenKds,
   onOpenWaiter,
@@ -390,6 +428,8 @@ function OverviewTab({
   health: AnalyticsBundle["health"];
   circumference: number;
   onOpenAnalytics: () => void;
+  onOpenOrders: () => void;
+  onOpenTables: () => void;
   onOpenMenu: () => void;
   onOpenKds: () => void;
   onOpenWaiter: () => void;
@@ -730,11 +770,30 @@ function OverviewTab({
       {/* Ops: floor + orders — promotional + operational */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5 mb-6">
         <section className="bg-white rounded-[20px] p-5 md:p-6 border" style={{ borderColor: C.slate200 }}>
-          <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4 }}>
-            Live orders
-          </div>
-          <div style={{ fontSize: 13, color: C.slate400, marginBottom: 12 }}>
-            {ops.activeOrderCount} active · recent window
+          <div className="flex items-start justify-between gap-3 mb-1">
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4 }}>
+                Live orders
+              </div>
+              <div style={{ fontSize: 13, color: C.slate400, marginBottom: 12 }}>
+                {ops.activeOrderCount} active · recent window
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onOpenOrders}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: C.orange,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              View all →
+            </button>
           </div>
           <div className="space-y-2">
             {ops.liveOrders.slice(0, 6).map((o) => (
@@ -759,11 +818,30 @@ function OverviewTab({
         </section>
 
         <section className="bg-white rounded-[20px] p-5 md:p-6 border" style={{ borderColor: C.slate200 }}>
-          <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4 }}>
-            Floor map
-          </div>
-          <div style={{ fontSize: 13, color: C.slate400, marginBottom: 12 }}>
-            {ops.occupiedTables} occupied
+          <div className="flex items-start justify-between gap-3 mb-1">
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 16, color: C.navy, marginBottom: 4 }}>
+                Floor map
+              </div>
+              <div style={{ fontSize: 13, color: C.slate400, marginBottom: 12 }}>
+                {ops.occupiedTables} occupied
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onOpenTables}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: C.orange,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Manage →
+            </button>
           </div>
           <div className="grid grid-cols-4 gap-2">
             {ops.tables.map((t) => (
@@ -847,6 +925,180 @@ function OverviewTab({
         </button>
       </div>
     </>
+  );
+}
+
+function PanelHeader({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ fontWeight: 700, fontSize: 20, color: C.navy }}>{title}</div>
+      <div style={{ fontSize: 13, color: C.slate400, marginTop: 4 }}>{subtitle}</div>
+    </div>
+  );
+}
+
+function OpsCard({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-white rounded-xl border"
+      style={{ borderColor: C.slate200 }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function OrdersTab({ ops }: { ops: DashboardOps }) {
+  return (
+    <div className="max-w-3xl">
+      <PanelHeader
+        title="Orders"
+        subtitle={`${ops.liveOrders.length} recent · ${ops.activeOrderCount} still active on the floor`}
+      />
+      <div className="space-y-2">
+        {ops.liveOrders.map((order) => (
+          <OpsCard key={order.id}>
+            <div>
+              <p style={{ fontWeight: 600, fontSize: 15, color: C.navy }}>
+                Table {order.tableNumber ?? "—"}
+                {order.displayId ? (
+                  <span style={{ fontWeight: 500, color: C.slate400 }}> · #{order.displayId}</span>
+                ) : null}
+              </p>
+              <p className="capitalize" style={{ fontSize: 13, color: C.slate400 }}>
+                {order.status.replace("_", " ")}
+              </p>
+            </div>
+            <span style={{ fontWeight: 700, fontSize: 15, color: C.navy }}>
+              {formatINR(order.total)}
+            </span>
+          </OpsCard>
+        ))}
+        {!ops.liveOrders.length && (
+          <p style={{ fontSize: 14, color: C.slate400 }}>No orders yet for this restaurant.</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TablesTab({ ops }: { ops: DashboardOps }) {
+  return (
+    <div className="max-w-3xl">
+      <PanelHeader
+        title="Tables"
+        subtitle={`${ops.occupiedTables} occupied · open a QR session for guest ordering`}
+      />
+      <div className="space-y-2">
+        {ops.tables.map((table) => {
+          const href = table.qrToken
+            ? `${ops.appUrl}/r/${ops.restaurantSlug}/t/${table.qrToken}`
+            : null;
+          return (
+            <OpsCard key={table.id}>
+              <div className="flex items-center gap-2">
+                <StatusDot status={table.status} />
+                <span style={{ fontWeight: 700, fontSize: 18, color: C.navy }}>
+                  T{table.number}
+                </span>
+                <span className="capitalize" style={{ fontSize: 13, color: C.slate400 }}>
+                  {table.status.replace("_", " ")}
+                </span>
+              </div>
+              {href ? (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontSize: 13, fontWeight: 600, color: C.navy }}
+                >
+                  Open QR session
+                </a>
+              ) : (
+                <span style={{ fontSize: 12, color: C.slate400 }}>No QR token</span>
+              )}
+            </OpsCard>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function InventoryTab({ ops, mode }: { ops: DashboardOps; mode: "live" | "promo" }) {
+  return (
+    <div className="max-w-3xl">
+      <PanelHeader
+        title="Inventory risk"
+        subtitle="Stock is live-decremented on every order. Paneer is seeded low for the 86 demo."
+      />
+      <div className="space-y-2">
+        {ops.inventory.map((item) => {
+          const low = item.qty <= item.lowThreshold;
+          return (
+            <OpsCard key={item.id}>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: 15, color: C.navy }}>{item.name}</p>
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: low ? C.amber : C.slate400,
+                    fontWeight: low ? 600 : 400,
+                  }}
+                >
+                  {item.qty} {item.unit}
+                  {low ? " · below threshold" : ""}
+                </p>
+              </div>
+              {mode === "live" ? (
+                <InventoryActions inventoryItemId={item.id} />
+              ) : (
+                <div className="flex gap-2">
+                  <span
+                    className="px-3 py-1.5 rounded-lg border text-xs"
+                    style={{ borderColor: C.slate200, color: C.slate400 }}
+                  >
+                    -5
+                  </span>
+                  <span
+                    className="px-3 py-1.5 rounded-lg text-xs text-white"
+                    style={{ background: C.navy }}
+                  >
+                    +20 restock
+                  </span>
+                </div>
+              )}
+            </OpsCard>
+          );
+        })}
+        {!ops.inventory.length && (
+          <p style={{ fontSize: 14, color: C.slate400 }}>No inventory rows yet.</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StaffTab({
+  actorRole,
+  assignableRoles,
+}: {
+  actorRole: MemberRole;
+  assignableRoles: MemberRole[];
+}) {
+  return (
+    <div className="max-w-3xl">
+      <PanelHeader
+        title="Users"
+        subtitle="Person-based accounts · invite-only · role-gated"
+      />
+      <div
+        className="bg-white rounded-[20px] border p-4 md:p-5"
+        style={{ borderColor: C.slate200 }}
+      >
+        <StaffManager actorRole={actorRole} assignableRoles={assignableRoles} />
+      </div>
+    </div>
   );
 }
 

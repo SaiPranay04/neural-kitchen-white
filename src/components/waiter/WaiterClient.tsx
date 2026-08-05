@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,11 +23,14 @@ export function WaiterClient({
   initialTables,
   initialRequests,
   initialReady,
+  embedded = false,
 }: {
   restaurantId: string;
   initialTables: TableRow[];
   initialRequests: ServiceRequest[];
   initialReady: ReadyItem[];
+  /** Inside executive console — no full-page chrome / sign-out */
+  embedded?: boolean;
 }) {
   const [tab, setTab] = useState<"tables" | "requests" | "ready">("tables");
   const [tables, setTables] = useState(initialTables);
@@ -45,6 +49,10 @@ export function WaiterClient({
     setReady(data.ready);
   }, [restaurantId]);
 
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
   const tablesRt = useRealtime({
     table: "tables",
     filter: `restaurant_id=eq.${restaurantId}`,
@@ -60,26 +68,48 @@ export function WaiterClient({
   useRealtime({ table: "order_items", onChange: refresh, pollMs: 5000 });
 
   return (
-    <div className="mx-auto min-h-screen max-w-3xl bg-nk-cream px-4 py-4">
+    <div className={embedded ? "max-w-3xl" : "mx-auto min-h-screen max-w-3xl bg-nk-cream px-4 py-4"}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
-            Waiter · Supabase Auth
-          </p>
-          <h1 className="font-display text-3xl text-nk-navy">Waiter panel</h1>
+          {!embedded && (
+            <>
+              <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                Waiter · floor
+              </p>
+              <h1 className="font-display text-3xl text-nk-navy">Waiter panel</h1>
+            </>
+          )}
+          {embedded && (
+            <div>
+              <div className="text-xl font-bold text-nk-navy">Waiter panel</div>
+              <p className="mt-1 text-sm text-slate-500">
+                Tables, guest requests, and ready-to-serve tickets
+              </p>
+            </div>
+          )}
           <div className="mt-2">
             <RealtimeBadge mode={tablesRt} />
           </div>
         </div>
-        <SignOutButton />
+        {!embedded && (
+          <div className="flex items-center gap-3">
+            <Link href="/dashboard" className="text-sm font-semibold text-nk-navy">
+              ← Command centre
+            </Link>
+            <SignOutButton />
+          </div>
+        )}
       </div>
       <div className="mt-4 flex gap-2">
         {(["tables", "requests", "ready"] as const).map((t) => (
           <button
             key={t}
+            type="button"
             onClick={() => setTab(t)}
-            className={`rounded-xl px-4 py-2 text-sm capitalize ${
-              tab === t ? "bg-cyan-400 text-nk-navy" : "bg-slate-100 text-slate-600"
+            className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize ${
+              tab === t
+                ? "bg-nk-navy text-white"
+                : "border border-slate-200 bg-white text-slate-600"
             }`}
           >
             {t}
@@ -92,7 +122,8 @@ export function WaiterClient({
           {tables.map((table) => (
             <button
               key={table.id}
-              className="surface p-4 text-left"
+              type="button"
+              className="rounded-xl border border-slate-200 bg-white p-4 text-left shadow-sm"
               disabled={pending}
               onClick={() => {
                 const next =
@@ -124,7 +155,10 @@ export function WaiterClient({
       {tab === "requests" && (
         <div className="mt-4 space-y-3">
           {requests.map((req) => (
-            <div key={req.id} className="surface flex items-center justify-between p-4">
+            <div
+              key={req.id}
+              className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+            >
               <div>
                 <p className="text-nk-navy">
                   Table {(req.tables as { number?: number } | null)?.number} ·{" "}
@@ -174,7 +208,10 @@ export function WaiterClient({
       {tab === "ready" && (
         <div className="mt-4 space-y-3">
           {ready.map((item) => (
-            <div key={item.id} className="surface flex items-center justify-between p-4">
+            <div
+              key={item.id}
+              className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+            >
               <div>
                 <p className="font-display text-xl text-nk-navy">
                   T{item.orders?.tables?.number ?? "?"}
@@ -214,8 +251,8 @@ export function WaiterClient({
 
           <div className="pt-4">
             <p className="mb-2 text-sm text-slate-500">
-              Mark bill paid (demo gateway) from open billed orders via dashboard, or tap a
-              table in bill_requested state after payment confirmation.
+              Mark bill paid (demo gateway) from open billed orders, or after payment
+              confirmation on a bill-requested table.
             </p>
             <Button
               variant="secondary"

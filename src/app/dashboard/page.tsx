@@ -1,13 +1,25 @@
 import { redirect } from "next/navigation";
 import { getMembership, MANAGER_ROLES, roleAtLeast } from "@/lib/auth";
-import { canViewUsersTab } from "@/lib/rbac";
+import { assignableRolesFor, canViewUsersTab } from "@/lib/rbac";
 import { loadRestaurantAnalytics } from "@/lib/analytics/load";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { ExecutiveDashboard } from "@/components/dashboard/ExecutiveDashboard";
 import { formatDashboardDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 type Search = { tab?: string };
+
+const SHELL_TABS = new Set([
+  "overview",
+  "analytics",
+  "orders",
+  "tables",
+  "inventory",
+  "staff",
+  "kitchen",
+  "waiter",
+]);
 
 export default async function DashboardPage({
   searchParams,
@@ -23,11 +35,29 @@ export default async function DashboardPage({
   }
 
   const sp = (await searchParams) ?? {};
-  const initialTab = sp.tab === "analytics" ? "analytics" : "overview";
+  const canUsers = canViewUsersTab(membership.membership.role);
+  type ShellTab =
+    | "overview"
+    | "analytics"
+    | "orders"
+    | "tables"
+    | "inventory"
+    | "staff"
+    | "kitchen"
+    | "waiter";
+  let initialTab: ShellTab = "overview";
+  if (sp.tab && SHELL_TABS.has(sp.tab)) initialTab = sp.tab as ShellTab;
+  if (initialTab === "staff" && !canUsers) initialTab = "overview";
 
-  const { analytics, ops } = await loadRestaurantAnalytics(
-    membership.membership.restaurant_id
-  );
+  const restaurantId = membership.membership.restaurant_id;
+  const [{ analytics, ops }, { data: kitchenIngredients }] = await Promise.all([
+    loadRestaurantAnalytics(restaurantId),
+    createAdminClient()
+      .from("ingredients")
+      .select("id, name")
+      .eq("restaurant_id", restaurantId)
+      .in("name", ["Paneer", "Chicken", "Basmati Rice", "Mushroom"]),
+  ]);
 
   const actorName =
     (membership.user.user_metadata?.full_name as string | undefined) ||
@@ -39,8 +69,11 @@ export default async function DashboardPage({
       mode="live"
       analytics={analytics}
       ops={ops}
-      canViewUsers={canViewUsersTab(membership.membership.role)}
+      canViewUsers={canUsers}
       actorName={actorName}
+      actorRole={membership.membership.role}
+      assignableRoles={assignableRolesFor(membership.membership.role)}
+      kitchenIngredients={kitchenIngredients ?? []}
       initialTab={initialTab}
       dateLabel={formatDashboardDate()}
     />

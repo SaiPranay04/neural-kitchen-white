@@ -70,18 +70,32 @@ export function buildPromoAnalytics(): AnalyticsBundle {
 
 export function buildPromoOps(): DashboardOps {
   return {
+    restaurantId: "promo",
     activeOrderCount: 23,
     occupiedTables: 9,
+    restaurantSlug: "spice-garden",
+    appUrl: "https://neuralkitchen.vezoradigital.com",
     liveOrders: [
       { id: "1", status: "preparing", total: 1840, tableNumber: 7, displayId: "042" },
       { id: "2", status: "ready", total: 920, tableNumber: 3, displayId: "041" },
       { id: "3", status: "placed", total: 1560, tableNumber: 12, displayId: "043" },
       { id: "4", status: "served", total: 2100, tableNumber: 5, displayId: "038" },
+      { id: "5", status: "completed", total: 609, tableNumber: 7, displayId: "036" },
+      { id: "6", status: "completed", total: 458, tableNumber: 12, displayId: "035" },
     ],
     tables: Array.from({ length: 12 }, (_, i) => ({
       id: String(i + 1),
       number: i + 1,
-      status: [1, 3, 5, 7, 9, 10, 11, 12, 4].includes(i + 1) ? "occupied" : "available",
+      status: [3, 5, 7, 9].includes(i + 1) ? "occupied" : "available",
+      qrToken: `demo-t${i + 1}`,
     })),
+    inventory: [
+      { id: "p1", name: "Paneer", unit: "g", qty: 340, lowThreshold: 200 },
+      { id: "p2", name: "Soy Sauce", unit: "ml", qty: 520, lowThreshold: 50 },
+      { id: "p3", name: "Butter", unit: "g", qty: 780, lowThreshold: 100 },
+      { id: "p4", name: "Basmati Rice", unit: "g", qty: 920, lowThreshold: 600 },
+      { id: "p5", name: "Cream", unit: "ml", qty: 960, lowThreshold: 200 },
+      { id: "p6", name: "Yogurt", unit: "g", qty: 1170, lowThreshold: 200 },
+    ],
   };
 }

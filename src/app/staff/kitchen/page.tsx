@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getMembership, KITCHEN_ROLES, roleAtLeast } from "@/lib/auth";
+import { getMembership, KITCHEN_ROLES, MANAGER_ROLES, roleAtLeast } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { KitchenClient } from "@/components/kitchen/KitchenClient";
 
@@ -10,6 +10,11 @@ export default async function KitchenPage() {
   if (!membership) redirect("/staff/login");
   if (!roleAtLeast(membership.membership.role, KITCHEN_ROLES)) {
     redirect("/staff/waiter");
+  }
+
+  // Managers get the console-embedded KDS
+  if (roleAtLeast(membership.membership.role, MANAGER_ROLES)) {
+    redirect("/dashboard?tab=kitchen");
   }
 
   const restaurantId = membership.membership.restaurant_id;

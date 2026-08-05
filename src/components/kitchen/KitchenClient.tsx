@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,13 @@ export function KitchenClient({
   restaurantId,
   initialTickets,
   ingredients,
+  embedded = false,
 }: {
   restaurantId: string;
   initialTickets: Ticket[];
   ingredients: Ingredient[];
+  /** Inside executive console — no full-page chrome / sign-out */
+  embedded?: boolean;
 }) {
   const [tickets, setTickets] = useState(initialTickets);
   const [pending, startTransition] = useTransition();
@@ -35,6 +39,10 @@ export function KitchenClient({
     });
     if (res.ok) setTickets(await res.json());
   }, [restaurantId]);
+
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
 
   const rtMode = useRealtime({
     table: "order_items",
@@ -52,7 +60,6 @@ export function KitchenClient({
   }, [tickets]);
 
   function advance(item: Ticket) {
-    // KDS: Accept jumps queued → preparing (one tap). accepted → preparing still supported.
     const next =
       item.status === "queued" || item.status === "accepted"
         ? "preparing"
@@ -90,19 +97,38 @@ export function KitchenClient({
   }
 
   return (
-    <div className="min-h-screen bg-nk-cream px-4 py-4 lg:px-6">
+    <div className={embedded ? "" : "min-h-screen bg-nk-cream px-4 py-4 lg:px-6"}>
       <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-            Kitchen display · Supabase Auth
-          </p>
-          <h1 className="font-display text-3xl text-nk-navy">Live queue</h1>
+          {!embedded && (
+            <>
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                Kitchen display · floor
+              </p>
+              <h1 className="font-display text-3xl text-nk-navy">Live queue</h1>
+            </>
+          )}
+          {embedded && (
+            <div>
+              <div className="text-xl font-bold text-nk-navy">Kitchen display</div>
+              <p className="mt-1 text-sm text-slate-500">
+                Live ticket board · same queue kitchen tablets use
+              </p>
+            </div>
+          )}
           <div className="mt-2">
             <RealtimeBadge mode={rtMode} />
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <SignOutButton />
+          {!embedded && (
+            <>
+              <Link href="/dashboard" className="text-sm font-semibold text-nk-navy">
+                ← Command centre
+              </Link>
+              <SignOutButton />
+            </>
+          )}
           {ingredients.slice(0, 4).map((ing) => (
             <Button
               key={ing.id}
@@ -125,14 +151,20 @@ export function KitchenClient({
             ["Ready", columns.ready],
           ] as const
         ).map(([title, list]) => (
-          <section key={title} className="surface min-h-[60vh] p-3">
+          <section
+            key={title}
+            className="min-h-[50vh] rounded-[16px] border border-slate-200 bg-white p-3 shadow-sm"
+          >
             <h2 className="mb-3 font-display text-xl text-nk-navy">
               {title}{" "}
               <span className="font-mono-num text-sm text-slate-500">{list.length}</span>
             </h2>
             <div className="space-y-3">
               {list.map((item) => (
-                <article key={item.id} className="glow-in rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <article
+                  key={item.id}
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-3"
+                >
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <p className="font-display text-xl text-nk-navy">
@@ -142,12 +174,12 @@ export function KitchenClient({
                           ? ` · #${(item.orders as { display_id?: string }).display_id}`
                           : ""}
                       </p>
-                      <p className="text-lg text-slate-100">
+                      <p className="text-base font-medium text-slate-700">
                         {item.menu_items?.name} × {item.qty}
                       </p>
                       <div className="mt-2 flex gap-2">
                         <Badge>{item.station}</Badge>
-                        <span className="font-mono-num text-xs text-amber-300">
+                        <span className="font-mono-num text-xs font-semibold text-amber-600">
                           P{item.priority}
                         </span>
                       </div>

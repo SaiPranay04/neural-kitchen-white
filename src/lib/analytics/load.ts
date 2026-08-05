@@ -24,7 +24,7 @@ export async function loadRestaurantAnalytics(restaurantId: string): Promise<{
     { data: notifications },
     { data: activityLogs },
   ] = await Promise.all([
-    admin.from("restaurants").select("name").eq("id", restaurantId).single(),
+    admin.from("restaurants").select("name, slug").eq("id", restaurantId).single(),
     admin
       .from("orders")
       .select(
@@ -36,7 +36,7 @@ export async function loadRestaurantAnalytics(restaurantId: string): Promise<{
       .limit(800),
     admin
       .from("tables")
-      .select("id, number, status")
+      .select("id, number, status, qr_token")
       .eq("restaurant_id", restaurantId)
       .order("number"),
     admin
@@ -45,8 +45,9 @@ export async function loadRestaurantAnalytics(restaurantId: string): Promise<{
       .eq("restaurant_id", restaurantId),
     admin
       .from("inventory_items")
-      .select("qty, low_threshold")
-      .eq("restaurant_id", restaurantId),
+      .select("id, qty, low_threshold, ingredients(name, unit)")
+      .eq("restaurant_id", restaurantId)
+      .order("qty"),
     admin
       .from("notifications")
       .select("title, body, created_at, severity")
@@ -85,7 +86,7 @@ export async function loadRestaurantAnalytics(restaurantId: string): Promise<{
     activityLogs: activityLogs ?? [],
   });
 
-  const liveOrders = (orders ?? []).slice(0, 12).map((o) => ({
+  const liveOrders = (orders ?? []).slice(0, 40).map((o) => ({
     id: o.id,
     status: o.status,
     total: Number(o.total),
@@ -103,13 +104,29 @@ export async function loadRestaurantAnalytics(restaurantId: string): Promise<{
     id: t.id,
     number: t.number,
     status: t.status,
+    qrToken: t.qr_token as string | null,
   }));
+
+  const inventoryRows = (inventory ?? []).map((i) => {
+    const ing = i.ingredients as { name?: string; unit?: string } | null;
+    return {
+      id: i.id as string,
+      name: ing?.name ?? "Item",
+      unit: ing?.unit ?? "",
+      qty: Number(i.qty),
+      lowThreshold: i.low_threshold != null ? Number(i.low_threshold) : 0,
+    };
+  });
 
   return {
     analytics,
     ops: {
+      restaurantId,
       liveOrders,
       tables: tableRows,
+      inventory: inventoryRows,
+      restaurantSlug: restaurant?.slug ?? "spice-garden",
+      appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
       activeOrderCount,
       occupiedTables: tableRows.filter((t) => t.status === "occupied").length,
     },

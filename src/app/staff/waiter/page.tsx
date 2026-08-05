@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getMembership, WAITER_ROLES, roleAtLeast } from "@/lib/auth";
+import { getMembership, MANAGER_ROLES, WAITER_ROLES, roleAtLeast } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { WaiterClient } from "@/components/waiter/WaiterClient";
 
@@ -10,6 +10,11 @@ export default async function WaiterPage() {
   if (!membership) redirect("/staff/login");
   if (!roleAtLeast(membership.membership.role, WAITER_ROLES)) {
     redirect("/staff/kitchen");
+  }
+
+  // Managers get the console-embedded waiter panel
+  if (roleAtLeast(membership.membership.role, MANAGER_ROLES)) {
+    redirect("/dashboard?tab=waiter");
   }
 
   const restaurantId = membership.membership.restaurant_id;
