@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getMembership, MANAGER_ROLES, roleAtLeast } from "@/lib/auth";
 import { assignableRolesFor, canViewUsersTab } from "@/lib/rbac";
 import { loadRestaurantAnalytics } from "@/lib/analytics/load";
+import { loadInventoryBundle } from "@/lib/inventory/load";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ExecutiveDashboard } from "@/components/dashboard/ExecutiveDashboard";
 import { formatDashboardDate } from "@/lib/utils";
@@ -50,8 +51,9 @@ export default async function DashboardPage({
   if (initialTab === "staff" && !canUsers) initialTab = "overview";
 
   const restaurantId = membership.membership.restaurant_id;
-  const [{ analytics, ops }, { data: kitchenIngredients }] = await Promise.all([
+  const [{ analytics, ops }, inventory, { data: kitchenIngredients }] = await Promise.all([
     loadRestaurantAnalytics(restaurantId),
+    loadInventoryBundle(restaurantId),
     createAdminClient()
       .from("ingredients")
       .select("id, name")
@@ -69,6 +71,7 @@ export default async function DashboardPage({
       mode="live"
       analytics={analytics}
       ops={ops}
+      inventory={inventory}
       canViewUsers={canUsers}
       actorName={actorName}
       actorRole={membership.membership.role}

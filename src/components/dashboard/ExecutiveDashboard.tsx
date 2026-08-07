@@ -41,10 +41,11 @@ import type { DashboardOps } from "@/lib/analytics/types";
 import { formatINR } from "@/lib/utils";
 import { SignOutButton } from "@/components/shared/SignOutButton";
 import { StatusDot } from "@/components/shared/StatusDot";
-import { InventoryActions } from "@/components/dashboard/InventoryActions";
 import { StaffManager } from "@/components/dashboard/StaffManager";
 import { KitchenClient } from "@/components/kitchen/KitchenClient";
 import { WaiterClient } from "@/components/waiter/WaiterClient";
+import { InventoryModule } from "@/components/inventory/InventoryModule";
+import type { InventoryBundle } from "@/lib/inventory/types";
 import type { MemberRole } from "@/types/database";
 
 const PIE_COLORS = [C.navy, C.orange, C.emerald, C.purple, C.cyan, C.slate400];
@@ -74,6 +75,7 @@ type Props = {
   mode: "live" | "promo";
   analytics: AnalyticsBundle;
   ops: DashboardOps;
+  inventory?: InventoryBundle | null;
   canViewUsers?: boolean;
   actorName?: string;
   actorRole?: MemberRole;
@@ -88,6 +90,7 @@ export function ExecutiveDashboard({
   mode,
   analytics,
   ops,
+  inventory = null,
   canViewUsers = false,
   actorName = "Manager",
   actorRole,
@@ -376,7 +379,12 @@ export function ExecutiveDashboard({
           )}
           {tab === "orders" && <OrdersTab ops={ops} />}
           {tab === "tables" && <TablesTab ops={ops} />}
-          {tab === "inventory" && <InventoryTab ops={ops} mode={mode} />}
+          {tab === "inventory" && inventory && (
+            <InventoryModule data={inventory} mode={mode} />
+          )}
+          {tab === "inventory" && !inventory && (
+            <p style={{ fontSize: 14, color: C.slate400 }}>Inventory data unavailable.</p>
+          )}
           {tab === "staff" && canViewUsers && actorRole && (
             <StaffTab actorRole={actorRole} assignableRoles={assignableRoles} />
           )}
@@ -1020,60 +1028,6 @@ function TablesTab({ ops }: { ops: DashboardOps }) {
             </OpsCard>
           );
         })}
-      </div>
-    </div>
-  );
-}
-
-function InventoryTab({ ops, mode }: { ops: DashboardOps; mode: "live" | "promo" }) {
-  return (
-    <div className="max-w-3xl">
-      <PanelHeader
-        title="Inventory risk"
-        subtitle="Stock is live-decremented on every order. Paneer is seeded low for the 86 demo."
-      />
-      <div className="space-y-2">
-        {ops.inventory.map((item) => {
-          const low = item.qty <= item.lowThreshold;
-          return (
-            <OpsCard key={item.id}>
-              <div>
-                <p style={{ fontWeight: 600, fontSize: 15, color: C.navy }}>{item.name}</p>
-                <p
-                  style={{
-                    fontSize: 13,
-                    color: low ? C.amber : C.slate400,
-                    fontWeight: low ? 600 : 400,
-                  }}
-                >
-                  {item.qty} {item.unit}
-                  {low ? " · below threshold" : ""}
-                </p>
-              </div>
-              {mode === "live" ? (
-                <InventoryActions inventoryItemId={item.id} />
-              ) : (
-                <div className="flex gap-2">
-                  <span
-                    className="px-3 py-1.5 rounded-lg border text-xs"
-                    style={{ borderColor: C.slate200, color: C.slate400 }}
-                  >
-                    -5
-                  </span>
-                  <span
-                    className="px-3 py-1.5 rounded-lg text-xs text-white"
-                    style={{ background: C.navy }}
-                  >
-                    +20 restock
-                  </span>
-                </div>
-              )}
-            </OpsCard>
-          );
-        })}
-        {!ops.inventory.length && (
-          <p style={{ fontSize: 14, color: C.slate400 }}>No inventory rows yet.</p>
-        )}
       </div>
     </div>
   );

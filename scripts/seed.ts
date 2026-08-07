@@ -4,6 +4,7 @@
  */
 import { createClient } from "@supabase/supabase-js";
 import { customAlphabet } from "nanoid";
+import { metaFor } from "../src/lib/inventory/catalog";
 
 const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 22);
 
@@ -501,21 +502,44 @@ async function seedRestaurant(opts: {
     .select("*");
   const catByName = new Map((cats ?? []).map((c) => [c.name, c.id]));
 
-  // Ingredients + inventory
-  const { data: ings } = await admin
-    .from("ingredients")
-    .insert(
-      INGREDIENTS.map((i) => ({
-        restaurant_id: restaurant.id,
-        name: i.name,
-        unit: i.unit,
-      }))
-    )
-    .select("*");
+  // Ingredients + inventory (enriched columns when migration 004 is applied)
+  const enrichedRows = INGREDIENTS.map((i) => {
+    const meta = metaFor(i.name);
+    return {
+      restaurant_id: restaurant.id,
+      name: i.name,
+      unit: i.unit,
+      category_name: meta.category,
+      department_name: meta.department,
+      base_unit: i.unit,
+      purchase_uom: meta.purchaseUom,
+      purchase_conversion: meta.purchaseConversion,
+      yield_pct: meta.yieldPct,
+      avg_cost: meta.avgCost,
+      last_purchase_rate: meta.lastPurchaseRate,
+      is_perishable: meta.perishable,
+    };
+  });
+
+  let ingsInsert = await admin.from("ingredients").insert(enrichedRows).select("*");
+  if (ingsInsert.error) {
+    ingsInsert = await admin
+      .from("ingredients")
+      .insert(
+        INGREDIENTS.map((i) => ({
+          restaurant_id: restaurant.id,
+          name: i.name,
+          unit: i.unit,
+        }))
+      )
+      .select("*");
+  }
+  const ings = ingsInsert.data;
   const ingByName = new Map((ings ?? []).map((i) => [i.name, i]));
 
   for (const ing of INGREDIENTS) {
     const row = ingByName.get(ing.name)!;
+    const meta = metaFor(ing.name);
     const { data: inv } = await admin
       .from("inventory_items")
       .insert({
@@ -523,27 +547,55 @@ async function seedRestaurant(opts: {
         restaurant_id: restaurant.id,
         qty: ing.qty,
         low_threshold: ing.low,
-        reorder_qty: Math.round(ing.qty * 0.5),
+        reorder_qty: meta.purchaseConversion,
       })
       .select("id")
       .single();
 
-    // backdated consumption for depletion rates
+    // backdated consumption + a purchase for the purchases board
     const now = Date.now();
+    const unitCost = meta.avgCost;
     await admin.from("inventory_transactions").insert([
+      {
+        inventory_item_id: inv!.id,
+        delta: meta.purchaseConversion,
+        type: "purchase",
+        created_at: new Date(now - 3 * 86400_000).toISOString(),
+        unit_cost: unitCost,
+        note: `Seed PO · ${meta.supplier}`,
+      },
       {
         inventory_item_id: inv!.id,
         delta: -Math.round(ing.qty * 0.08),
         type: "consumption",
         created_at: new Date(now - 2.5 * 3600_000).toISOString(),
+        unit_cost: unitCost,
       },
       {
         inventory_item_id: inv!.id,
         delta: -Math.round(ing.qty * 0.05),
         type: "consumption",
         created_at: new Date(now - 1.2 * 3600_000).toISOString(),
+        unit_cost: unitCost,
       },
-    ]);
+    ]).then(async (res) => {
+      if (res.error) {
+        await admin.from("inventory_transactions").insert([
+          {
+            inventory_item_id: inv!.id,
+            delta: -Math.round(ing.qty * 0.08),
+            type: "consumption",
+            created_at: new Date(now - 2.5 * 3600_000).toISOString(),
+          },
+          {
+            inventory_item_id: inv!.id,
+            delta: -Math.round(ing.qty * 0.05),
+            type: "consumption",
+            created_at: new Date(now - 1.2 * 3600_000).toISOString(),
+          },
+        ]);
+      }
+    });
   }
 
   // Menu items + recipes
