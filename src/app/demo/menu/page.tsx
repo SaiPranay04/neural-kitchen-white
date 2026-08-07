@@ -105,9 +105,9 @@ export default function MenuPage() {
                 ← Back
               </button>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 18, color: C.navy }}>The Neural Kitchen</div>
+                <div style={{ fontWeight: 700, fontSize: 18, color: C.navy }}>Spice Garden</div>
                 <div style={{ fontSize: 12, color: C.slate400, display: "flex", alignItems: "center", gap: 4 }}>
-                  <MapPin size={11} /><span>42 Innovation Drive · Open until 11PM</span>
+                  <MapPin size={11} /><span>Main Road, Kakinada · Open until 11 PM</span>
                 </div>
               </div>
             </div>

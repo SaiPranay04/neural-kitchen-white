@@ -117,7 +117,7 @@ export default function AIFeaturePage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
             {[
-              { icon: <Shield size={20} />, title: "Review Response AI", desc: "Zara drafts professional responses to Google and Yelp reviews. Positive or negative, she maintains your brand voice.", color: C.navy },
+              { icon: <Shield size={20} />, title: "Review Response AI", desc: "Zara drafts professional responses to Google and Zomato reviews. Positive or negative, she maintains your brand voice.", color: C.navy },
               { icon: <Globe size={20} />, title: "Multi-Language Support", desc: "Zara communicates with your international guests in their language — English, Hindi, Arabic, Japanese, and more.", color: C.cyan },
               { icon: <TrendingUp size={20} />, title: "Revenue Optimization", desc: "Zara identifies your most profitable times and suggests dynamic pricing or promotion strategies to fill your off-peak hours.", color: C.emerald },
               { icon: <Brain size={20} />, title: "Staff Scheduling AI", desc: "Based on predicted demand, Zara recommends how many servers and cooks you need for each shift. No more overstaffing Tuesdays.", color: C.purple },

@@ -31,7 +31,7 @@ export default function PlatformFeaturePage() {
     { 
       icon: <Star size={24} />, title: "Review Intelligence", color: C.purple,
       tagline: "Protect and grow your reputation.",
-      bullets: ["Aggregate reviews from Google, Yelp, Zomato, and OpenTable", "AI sentiment analysis to catch negative trends early", "One-click professional response generation by Zara AI", "Weekly reputation score with improvement suggestions"]
+      bullets: ["Aggregate reviews from Google, Zomato, and Swiggy", "AI sentiment analysis to catch negative trends early", "One-click professional response generation by Zara AI", "Weekly reputation score with improvement suggestions"]
     },
     { 
       icon: <Building2 size={24} />, title: "Multi-Branch Control", color: C.cyan,
@@ -51,7 +51,7 @@ export default function PlatformFeaturePage() {
     {
       icon: <ImagePlus size={24} />, title: "AI Marketing Engine", color: C.purple,
       tagline: "Put your social media on autopilot.",
-      bullets: ["Auto-generates Instagram captions and hashtags from daily specials", "Drafts professional, brand-aligned responses to Google & Yelp reviews", "Identifies your most photogenic dishes based on order volume", "Creates highly targeted email/SMS blast copy for loyalty members"]
+      bullets: ["Auto-generates Instagram captions and hashtags from daily specials", "Drafts professional, brand-aligned responses to Google & Zomato reviews", "Identifies your most photogenic dishes based on order volume", "Creates highly targeted email/SMS blast copy for loyalty members"]
     },
   ];
 

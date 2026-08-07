@@ -146,7 +146,7 @@ export default function KDSPage() {
           </div>
           <div>
             <span style={{ fontWeight: 700, fontSize: 13, color: C.amber }}>AI FORECAST · </span>
-            <span style={{ fontSize: 13, color: C.slate700 }}>Burger station may be overloaded in ~10 minutes based on incoming bookings. Consider pre-prepping 6 additional patties. Table 14 party of 8 arrives at 8:30PM.</span>
+            <span style={{ fontSize: 13, color: C.slate700 }}>Tandoor may be overloaded in ~10 minutes based on incoming bookings. Pre-prep 6 extra paneer tikka skewers. Table 14 party of 8 arrives at 8:30 PM — hold a biryani batch.</span>
           </div>
           <div className="mt-2 md:mt-0 w-full md:w-auto md:ml-auto flex justify-between md:justify-end gap-6 flex-shrink-0">
             {[{ label: "Avg Time", val: "11m" }, { label: "Active Orders", val: "8" }, { label: "Queue Depth", val: "3" }].map(({ label, val }) => (

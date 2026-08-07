@@ -180,9 +180,9 @@ export function ExecutiveDashboard({
         <div className="p-3 md:p-5 md:border-b border-white/10 flex flex-row md:flex-col items-center md:items-start flex-shrink-0">
           <div className="flex items-center gap-3 md:mb-2">
             <img
-              src="/image.png"
+              src="/logo.png"
               alt="Neural Kitchen"
-              className="w-8 h-8 md:w-9 md:h-9 rounded-lg object-cover"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-lg object-contain bg-white"
             />
             <div className="hidden md:block">
               <div className="font-bold text-sm text-white">Neural Kitchen</div>

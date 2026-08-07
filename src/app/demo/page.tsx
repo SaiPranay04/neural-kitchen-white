@@ -50,7 +50,7 @@ export default function LandingPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "white", border: `1px solid ${C.orange}30`, borderRadius: 99, padding: "6px 16px", marginBottom: 28, boxShadow: `0 2px 12px ${C.orange}15` }}>
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.emerald, display: "inline-block" }} />
-            <span style={{ fontSize: 13, fontWeight: 600, color: C.orange }}>Now serving 200+ restaurants across 18 cities</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: C.orange }}>Interactive demo · Indian restaurant OS</span>
           </div>
         </motion.div>
 
@@ -107,7 +107,7 @@ export default function LandingPage() {
           </div>
           <div className="p-4 md:p-8" style={{ background: C.slate50 }}>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-              {[{ label: "Today's Revenue", val: "$8,412", up: true, change: "+18.2%" },
+              {[{ label: "Today's Revenue", val: "₹1,84,200", up: true, change: "+18.2%" },
                 { label: "Active Orders", val: "23", up: true, change: "+4" },
                 { label: "Avg Table Time", val: "38 min", up: false, change: "-6 min" },
                 { label: "Health Score", val: "94/100", up: true, change: "↑ 3pts" }].map(({ label, val, up, change }) => (
@@ -139,7 +139,7 @@ export default function LandingPage() {
           <h2 style={{ fontSize: 40, fontWeight: 800, color: C.navy, letterSpacing: "-0.025em", marginBottom: 12 }}>
             Every tool your restaurant needs.
           </h2>
-          <p style={{ fontSize: 17, color: C.slate600 }}>Eleven integrated modules. One intelligent platform.</p>
+          <p style={{ fontSize: 17, color: C.slate600 }}>Open Menu, Kitchen, or Admin to walk the full guest-to-kitchen loop.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -199,10 +199,10 @@ export default function LandingPage() {
           Ready to run the neural kitchen?
         </h2>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, marginBottom: 32 }}>
-          Join 200+ restaurants already serving smarter.
+          Built for Indian hotels and restaurants — try the live console.
         </p>
         <button onClick={() => onNavigate("admin")} style={{ padding: "16px 40px", borderRadius: 12, border: "none", background: C.orange, color: "white", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: `0 4px 24px ${C.orange}50` }}>
-          Start Free Trial — No Card Required
+          Open Executive Console
         </button>
 
         {/* VEZORA DIGITAL SIGNATURE */}
@@ -214,9 +214,9 @@ export default function LandingPage() {
               style={{ height: 80, width: "auto", objectFit: "contain", display: "block", background: "white", borderRadius: 8, padding: 4 }}
             />
           </div>
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: 8 }}>
-            © {new Date().getFullYear()} Neural Kitchen. Designed & Engineered by 
-            <img src="/vezora-bg.png" alt="Vezora Digital" style={{ height: 80, objectFit: "contain" }} />
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+            © {new Date().getFullYear()} Neural Kitchen · by{" "}
+            <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>Vezora Digital</span>
           </div>
         </div>
       </div>
